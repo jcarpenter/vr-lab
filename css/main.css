@@ -1,5 +1,6 @@
 html, body {
-  background-color: #1db992;
+  background-color: #f8bc4a;
+  background-image: url('../images/2560x1440-2.png');
   color: white;
   margin: 0;
   padding: 0;
@@ -24,27 +25,23 @@ html, body {
 .button:hover {
   cursor: pointer; }
 
-#container {
-  background-color: #f8bc4a;
-  width: 50%;
-  height: 50%; }
-
 #transitions {
   position: absolute;
-  left: 0;
-  right: 0;
-  width: 18em;
-  text-align: center;
-  margin: 4em auto;
-  list-style: none; }
+  top: 4em;
+  right: 4em;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 1em;
+  font-weight: 500; }
   #transitions li {
-    float: left;
-    padding: 0.3em 0.75em;
-    margin-right: 0.5em;
-    font-size: 1.5em;
-    font-weight: 500;
+    cursor: pointer;
     border: 0.2em solid white;
-    cursor: pointer; }
+    padding: 0.2em 0.25em;
+    margin: 0.5em;
+    text-transform: uppercase; }
+  #transitions li:hover {
+    background-color: rgba(255, 255, 255, 0.25); }
 
 .sitetag {
   text-transform: uppercase;

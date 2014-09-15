@@ -11,15 +11,21 @@ function init() {
 
 	scene = new THREE.Scene();
 
-	var light = new THREE.DirectionalLight( 0xffffff, 2 );
-	light.position.set( 1, 1, 1 ).normalize();
+	var light = new THREE.PointLight( 0xFFFFFF, 0.5, 2 );
+
+	light.position.set( 0, 0, 0 );
 	scene.add( light );
 
+	/*
 	var light = new THREE.DirectionalLight( 0xffffff );
 	light.position.set( -1, -1, -1 ).normalize();
 	scene.add( light );
+	*/
 
-	renderer = new THREE.WebGLRenderer( { antialias: true } );
+	renderer = new THREE.WebGLRenderer( { antialias: true, alpha: true } );
+	renderer.setSize( window.innerWidth, window.innerHeight );
+	renderer.sortObjects = false;
+	container.appendChild( renderer.domElement );
 
 	var fullScreenButton = document.getElementById( 'fullscreenButton' );
 	fullScreenButton.onclick = function() {
@@ -36,11 +42,6 @@ function init() {
 	}
 
 	transitionsInit();
-
-	renderer.setClearColor( 0xf0f0f0 );
-	renderer.setSize( window.innerWidth, window.innerHeight );
-	renderer.sortObjects = false;
-	container.appendChild( renderer.domElement );
 
 	window.addEventListener( 'keypress', onkey, true);
 	window.addEventListener( 'resize', onWindowResize, false );
@@ -65,18 +66,16 @@ function onkey(event) {
 }
 
 
-
 function transitionsInit() {
 
+	//var quantity = 4;
 
-	var quantity = 4;
+	var count = Object.keys(transitions).length;
 
-	for ( var i = 1; i <= quantity; i++ ) {
+	for ( var i = 1; i <= count; i++ ) {
 		
-		var button = document.getElementById( 'tran' + i );
-
 		var name = 'tran'+i;
-
+		var button = document.getElementById( name );
 		button.addEventListener('click', transitions[name]);
 		
 	}
@@ -84,90 +83,168 @@ function transitionsInit() {
 
 var activeTransition;
 
-function cleanSlate() {
+function cleanTransition() {
 
 	if ( activeTransition ) {
 		scene.remove(activeTransition);
+		TWEEN.removeAll;
 	}
 
 	console.log("Cleaned Up!")
 
 }
 
+function setupTransition(m) {
+
+	var transitionHolder = new THREE.Object3D();
+	transitionHolder.add( m );
+	activeTransition = transitionHolder;
+	scene.add( activeTransition );
+
+}
+
+//Easing functions: http://sole.github.io/tween.js/examples/03_graphs.html
+
 var transitions = { 
 	
-	'tran1' : function() { 
+	'tran1': function() { 
 		
-		cleanSlate();
-
-		var transitionHolder = new THREE.Object3D();
-
-		var tube = new THREE.Mesh(
-			new THREE.CylinderGeometry( 2, 2, 50, 32, 80, false ),
-			new THREE.MeshBasicMaterial( { color: 0xF8BC4A, wireframe: true } ) 
+		var m = new THREE.Mesh(
+			new THREE.TubeGeometry(),
+			new THREE.MeshBasicMaterial( { color: 0xFFFFFF, wireframe: true } ) 
 		);
-		transitionHolder.add( tube );
-		tube.position.set( 0, 0, 0);
-		tube.rotation.set( 1.571, 0, 0 );
-		
-		activeTransition = transitionHolder;
-		scene.add( activeTransition );
+	
+		cleanTransition();		
+		setupTransition(m);
 
-		//THREE.CylinderGeometry( radiusTop, radiusBottom, height, segmentsRadius, segmentsHeight, openEnded );
+		m.position.set( 0, 0, 0);
+		m.rotation.set( 1.571, 0, 0 );
 
 	},
 
 	'tran2': function() {
 		
-		cleanSlate();
-
-		var transitionHolder = new THREE.Object3D();
-
-		var box = new THREE.Mesh(
-			new THREE.BoxGeometry( 4, 4, 4, 30, 30, 30 ),
-			new THREE.MeshBasicMaterial( { color: 0xF8BC4A, wireframe: true } ) 
+		var m = new THREE.Mesh(
+			new THREE.BoxGeometry( 1, 1, 1, 60, 1, 60 ),
+			new THREE.MeshBasicMaterial( { color: 0xFFFFFF, wireframe: true } ) 
 		);
-		transitionHolder.add( box );
-		box.position.set( 0, 0, -2 );
-		box.rotation.set( 1, 1, 1 );
-		activeTransition = transitionHolder;
-		scene.add( activeTransition );
+
+		cleanTransition();		
+		setupTransition(m);
+
+		m.scale.set( 0, 0, 1 );
+
+		t1 = new TWEEN.Tween( m.scale ).
+			to( { x:1, y:0.1, z:1 }, 1500 ).
+			easing(TWEEN.Easing.Quadratic.InOut);
+		
+		t1.start();
 
 	},
 
 	'tran3': function() {
-		
-		cleanSlate();
 
-		var transitionHolder = new THREE.Object3D();
-
-		var torus = new THREE.Mesh(
-			new THREE.TorusKnotGeometry( 10, 3, 300, 30 ),
-			new THREE.MeshBasicMaterial( { color: 0xF8BC4A, wireframe: true } ) 
+		var m = new THREE.Mesh(
+			new THREE.CylinderGeometry( 2, 2, 10, 32, 20, true ),
+			new THREE.MeshBasicMaterial( { color: 0xf8bc4a, wireframe: true } ) 
 		);
-		transitionHolder.add( torus );
-		torus.position.set( 0, 0, -20 );
-		torus.rotation.set( 1, 1, 1 );
-		activeTransition = transitionHolder;
-		scene.add( activeTransition );
+		
+		cleanTransition();		
+		setupTransition(m);
 
+		m.position.set( 0, 0, 0);
+		m.rotation.set( 1.571, 0, 0 );
+		m.scale.set( 1, 0.1, 1 );
+
+		t1 = new TWEEN.Tween( m.scale )
+			.to( { x:1, y:1, z:1 }, 3000 )
+			.easing(TWEEN.Easing.Quadratic.InOut)
+			.start();
+
+		
+		t2 = new TWEEN.Tween( m.rotation )
+			.to( { x:1.571, y:1.571, z:0 }, 3000 )
+			.easing(TWEEN.Easing.Quadratic.InOut)
+			.start();
+		
 	},
 
 	'tran4': function() {
 
-		cleanSlate();
-
-		var transitionHolder = new THREE.Object3D();
-
-		var tetra = new THREE.Mesh(
-			new THREE.TetrahedronGeometry( 10, 5 ),
-			new THREE.MeshBasicMaterial( { color: 0xF8BC4A, wireframe: true } ) 
+		var m = new THREE.Mesh(
+			new THREE.CylinderGeometry( 2, 2, 2, 32, 20, true ),
+			new THREE.MeshBasicMaterial( { color: 0xf8bc4a, wireframe: true } ) 
 		);
-		transitionHolder.add( tetra );
-		tetra.position.set( 0, 0, -10 );
-		tetra.rotation.set( 1, 1, 1 );
-		activeTransition = transitionHolder;
-		scene.add( activeTransition );
+		
+		cleanTransition();		
+		setupTransition(m);
+
+		m.position.set( 0, 0, -1);
+		m.rotation.set( 1.571, 0, 0 );
+		m.scale.set( 0, 0, 0 );
+
+		t1 = new TWEEN.Tween( m.scale )
+			.to( { x:1, y:2, z:1 }, 3000 )
+			.easing(TWEEN.Easing.Quadratic.InOut)
+			.start();
+
+		var axis = new THREE.Vector3(.5,.1,.1)
+		var angle = { a: 1 };
+
+		t2 = new TWEEN.Tween( m.rotation )
+			.to( { y:1.571  }, 3000 )
+			.easing(TWEEN.Easing.Quadratic.InOut)
+			.onUpdate(function() {
+				console.log( angle.a )
+			})
+			.start();
+
+	},
+
+	'tran5': function() {
+		
+		var m = new THREE.Mesh(
+			new THREE.CylinderGeometry( 2, 2, 2, 32, 20, true ),
+			new THREE.MeshBasicMaterial( { color: 0xf8bc4a, wireframe: true } ) 
+		);
+		
+		cleanTransition();		
+		setupTransition(m);
+
+		m.position.set( 0, 0, -1);
+		m.rotation.set( 1.571, 0, 0 );
+		m.scale.set( 0, 0, 0 );
+
+		t1 = new TWEEN.Tween( m.scale )
+			.to( { x:1, y:2, z:1 }, 3000 )
+			.easing(TWEEN.Easing.Quadratic.InOut)
+			.start();
+
+		var axis = new THREE.Vector3(.5,.1,.1)
+		var angle = { a: 1 };
+
+		t2 = new TWEEN.Tween( m.rotation )
+			.to( { y:1.571  }, 3000 )
+			.easing(TWEEN.Easing.Quadratic.InOut)
+			.onUpdate(function() {
+				console.log( angle.a )
+			})
+			.start();
+
+	},
+
+	'tran6': function() {
+		
+		var m = new THREE.Mesh(
+			new THREE.TetrahedronGeometry( 10, 5 ),
+			new THREE.MeshBasicMaterial( { color: 0xFFFFFF, wireframe: true } ) 
+		);
+
+		cleanTransition();		
+		setupTransition(m);
+
+		m.position.set( 0, 0, -10 );
+		m.rotation.set( 1, 1, 1 );
 
 	},
 
@@ -190,14 +267,6 @@ function onWindowResize() {
 	renderer.setSize( window.innerWidth, window.innerHeight );
 
 }
-
-function createTweens() {
-
-	//boxTween = new TWEEN.Tween( box.scale ).to( { x:6, y:1, z: 6 }, 4000 ).start();
-
-	//new THREE.CylinderGeometry( radiusTop, radiusBottom, height, segmentsRadius, segmentsHeight, openEnded );
-}
-
 
 function animate() {
 
