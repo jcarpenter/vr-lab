@@ -2,6 +2,7 @@ var camera, scene, renderer;
 var vrEffect;
 var vrControls;
 var box, boxTween;
+var material1 = new THREE.MeshBasicMaterial( { color: 0xFFFFFF, wireframe: true, transparent: true } )
 
 function init() {
 
@@ -87,7 +88,7 @@ function fadeOut() {
 	//create cylinder
 	var m = new THREE.Mesh(
 		new THREE.CylinderGeometry( 2, 2, 4, 40, 20, true ),
-		new THREE.MeshBasicMaterial( { color: 0xFFFFFF, wireframe: true } ) 
+		material1
 	);
 
 	m.position.set( 0, 0, 0);
@@ -110,7 +111,7 @@ function fadeOut() {
 	//create cap 1
 	var p = new THREE.Mesh(
 		new THREE.CircleGeometry( 2, 40, 0, Math.PI * 2 ),
-		new THREE.MeshBasicMaterial( { color: 0xFFFFFF, wireframe: true } ) 
+		material1
 	);
 
 	p.position.set( -2, 0, 0 );
@@ -136,7 +137,7 @@ function fadeOut() {
 	//create cap 2
 	var l = new THREE.Mesh(
 		new THREE.CircleGeometry( 2, 40, 0, Math.PI * 2 ),
-		new THREE.MeshBasicMaterial( { color: 0xFFFFFF, wireframe: true } ) 
+		material1
 	);
 
 	l.position.set( 2, 0, 0 );
@@ -178,7 +179,7 @@ function fadeIn() {
 	//create cylinder
 	var m = new THREE.Mesh(
 		new THREE.CylinderGeometry( 2, 2, 4, 40, 20, true ),
-		new THREE.MeshBasicMaterial( { color: 0xFFFFFF, wireframe: true, transparent: true } ) 
+		material1
 	);
 
 	m.position.set( 0, 0, 0);
@@ -198,7 +199,7 @@ function fadeIn() {
 	//create cap 1
 	var p = new THREE.Mesh(
 		new THREE.CircleGeometry( 2, 40, 0, Math.PI * 2 ),
-		new THREE.MeshBasicMaterial( { color: 0xFFFFFF, wireframe: true, transparent: true } ) 
+		material1
 	);
 
 	p.position.set( -2, 0, 0 );
@@ -217,7 +218,7 @@ function fadeIn() {
 	//create cap 2
 	var l = new THREE.Mesh(
 		new THREE.CircleGeometry( 2, 40, 0, Math.PI * 2 ),
-		new THREE.MeshBasicMaterial( { color: 0xFFFFFF, wireframe: true, transparent: true } ) 
+		material1
 	);
 
 	l.position.set( 2, 0, 0 );
