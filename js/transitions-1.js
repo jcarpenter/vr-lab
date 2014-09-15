@@ -2,7 +2,15 @@ var camera, scene, renderer;
 var vrEffect;
 var vrControls;
 var box, boxTween;
-var material1 = new THREE.MeshBasicMaterial( { color: 0xFFFFFF, wireframe: true, transparent: true } )
+var mat1Color = 0xf8bc4a;
+var mat1Wire = false;
+var mat1Trans = false;
+var material1 = new THREE.MeshBasicMaterial( { 
+	color: mat1Color, 
+	wireframe: mat1Wire, 
+	transparent: mat1Trans
+} )
+material1.side = THREE.DoubleSide;
 
 function init() {
 
