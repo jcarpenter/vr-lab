@@ -71,14 +71,18 @@ function transitionsInit() {
 	//var quantity = 4;
 
 	var count = Object.keys(transitions).length;
+	
 
 	for ( var i = 1; i <= count; i++ ) {
 		
 		var name = 'tran'+i;
+		console.log( name );
 		var button = document.getElementById( name );
 		button.addEventListener('click', transitions[name]);
 		
 	}
+
+
 }
 
 var activeTransition;
@@ -411,9 +415,120 @@ var transitions = {
 
 		tH.rotation.set( 0, 0, 1.571 );
 
+	},
+
+	'tran9': function() { 
+
+		//create holder
+		var tH = new THREE.Object3D();
+		var geometry = new THREE.IcosahedronGeometry( 400, 1 );
+		var material = new THREE.MeshBasicMaterial( { color: 0xffffff, wireframe: false, transparent: true } );
+		material.side = THREE.DoubleSide;
+		
+		// explode geometry into objects
+		var group = explode( geometry, material );
+
+		// animate objects
+		for ( var i = 0; i < group.children.length; i ++ ) {
+
+			var object = group.children[ i ];
+			//object.material.opacity = 0;
+			//object.scale.set( 0, 0, 0 )
+			var target = object.position.y + 20;
+			var delay = - ( object.position.x / 400 ) + ( object.position.y + 200 ) / 400;
+
+			new TWEEN.Tween( object.position )
+				.to( { y: target }, 1500 )
+				.delay( ( 1 - delay ) * 800 )
+				.easing( TWEEN.Easing.Exponential.Out )
+				.start();
+
+
+		}
+
+		tH.add( group );
+		cleanTransition();		
+		setupTransition( tH );
+
+	},
+
+	/*
+	'tran10': function() { 
+
+		//create holder
+		var tH = new THREE.Object3D();
+		var geometry = new THREE.IcosahedronGeometry( 400, 1 );
+		var material = new THREE.MeshBasicMaterial( { color: 0xffffff, wireframe: false, transparent: true } );
+		material.side = THREE.DoubleSide;
+		
+		// explode geometry into objects
+		var group = explode( geometry, material );
+
+		// animate objects
+		for ( var i = 0; i < group.children.length; i ++ ) {
+
+			var object = group.children[ i ];
+			object.material.opacity = 0;
+			//object.scale.set( 0, 0, 0 )
+			var target = object.position.y + 20;
+			var delay = - ( object.position.x / 400 ) + ( object.position.y + 200 ) / 400;
+
+			new TWEEN.Tween( object.position )
+				.to( { y: target }, 1500 )
+				.delay( ( 1 - delay ) * 800 )
+				.easing( TWEEN.Easing.Exponential.Out )
+				.start();
+
+			new TWEEN.Tween( object.material )
+				.to( { opacity: 1 }, 1500 )
+				.delay( ( 1 - delay ) * 800 )
+				.easing( TWEEN.Easing.Exponential.Out )
+				.start();
+
+		}
+
+		tH.add( group );
+		cleanTransition();		
+		setupTransition( tH );
+
 	}
+	*/
+
 
 };
+
+
+
+//explode objects function, from MrDoob
+function explode( geometry, material ) {
+
+	var group = new THREE.Group();
+
+	for ( var i = 0; i < geometry.faces.length; i ++ ) {
+
+		var face = geometry.faces[ i ];
+
+		var vertexA = geometry.vertices[ face.a ].clone();
+		var vertexB = geometry.vertices[ face.b ].clone();
+		var vertexC = geometry.vertices[ face.c ].clone();
+
+		var geometry2 = new THREE.Geometry();
+		geometry2.vertices.push( vertexA, vertexB, vertexC );
+		geometry2.faces.push( new THREE.Face3( 0, 1, 2 ) );
+
+		var mesh = new THREE.Mesh( geometry2, material );
+		mesh.position.sub( geometry2.center() );
+		group.add( mesh );
+
+	}
+
+	console.log("group");
+
+	return group;
+
+}
+
+
 
 
 function onWindowResize() {
