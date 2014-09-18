@@ -11,7 +11,7 @@ function init() {
 
 	scene = new THREE.Scene();
 
-	var light = new THREE.PointLight( 0xFFFFFF, 0.5, 2 );
+	var light = new THREE.PointLight( 0xFFFFFF, 1.25 );
 
 	light.position.set( 0, 0, 0 );
 	scene.add( light );
@@ -81,8 +81,6 @@ function transitionsInit() {
 		button.addEventListener('click', transitions[name]);
 		
 	}
-
-
 }
 
 var activeTransition;
@@ -589,9 +587,152 @@ var transitions = {
 		cleanTransition();		
 		setupTransition( group );
 
+	},
+
+	'tran13': function() { 
+
+		//create holder
+		var tH = new THREE.Object3D();
+
+		var v1 = new THREE.Vector3( 0, 0, 0 );
+		var v2 = new THREE.Vector3( 0, 40, 0 );
+		var v3 = new THREE.Vector3( 40, 0, -0.5 );
+	
+		var geo = new THREE.Geometry();
+		geo.vertices.push( v1 );
+		geo.vertices.push( v2 );
+		geo.vertices.push( v3 );
+		geo.faces.push( new THREE.Face3( 0, 1, 2 ) );
+		
+		var material = new THREE.MeshBasicMaterial( { color: 0xf8bc4a, wireframe: false, transparent: true } );
+		material.side = THREE.DoubleSide;
+
+		var mesh = new THREE.Mesh( geo, material );
+		
+		tH.add( mesh );
+		tH.rotation.set( 0.5, 0.5, 0.5 );
+		tH.position.set( 0, 0, -1000 )
+		tH.scale.set( 8, 8, 8 )
+		cleanTransition();		
+		setupTransition( tH );
+
+	},
+
+	'tran14': function() { 
+
+		//create holder
+		var tH = new THREE.Object3D();
+
+		var rectPoints = [];
+		
+		rectPoints.push( new THREE.Vector2 (   10,  -5 ) );
+		rectPoints.push( new THREE.Vector2 (  10,  5 ) );
+		rectPoints.push( new THREE.Vector2 (  -10,  5 ) );
+		rectPoints.push( new THREE.Vector2 (  -10, -5 ) );
+		
+		var rectShape = new THREE.Shape( rectPoints );
+
+		var extrusionSettings = {
+			//size: 1,
+			amount: 4,
+			//curveSegments: 3,
+			//bevelThickness: 1,
+			//bevelSize: 2,
+			bevelEnabled: false,
+			material: 0,
+			extrudeMaterial: 1
+		};
+		
+		var rectGeo = new THREE.ExtrudeGeometry( rectShape, extrusionSettings );
+		
+		var materialFront = new THREE.MeshBasicMaterial( { color: 0xffffff, transparent: true, opacity: 0 } );
+		var materialSide = new THREE.MeshPhongMaterial( { color: 0xcccccc  } );
+		materialSide.side = THREE.DoubleSide;
+		var materialArray = [ materialFront, materialSide ];
+		var rectMat = new THREE.MeshFaceMaterial( materialArray );
+
+		//var rectMat = new THREE.MeshPhongMaterial( { color: 0xffff00, wireframe: false} );
+		
+		//create model and add to scene
+		var rect = new THREE.Mesh( rectGeo, rectMat );
+		tH.add( rect );
+		
+		// add a wireframe to model
+		// var wireframeTexture = new THREE.MeshBasicMaterial( { color: 0x000000, wireframe: true, transparent: true, opacity: 0.1 } ); 
+		// var rect = new THREE.Mesh( rectGeo, wireframeTexture );
+		// tH.add( rect );
+
+		tH.add( rect );
+		tH.position.set( 0, 0, -50 )
+		tH.rotation.set( .75, .75, 0 )
+		cleanTransition();		
+		setupTransition( tH );
+
+	},
+
+	'tran15': function() { 
+
+		//create holder
+		var tH = new THREE.Object3D();
+
+		var rectPoints = [];
+		
+		rectPoints.push( new THREE.Vector2 (   10,  -5 ) );
+		rectPoints.push( new THREE.Vector2 (  10,  5 ) );
+		rectPoints.push( new THREE.Vector2 (  -10,  5 ) );
+		rectPoints.push( new THREE.Vector2 (  -10, -5 ) );
+		
+		var rectShape = new THREE.Shape( rectPoints );
+
+		var extrusionSettings = {
+			amount: 4,
+			bevelEnabled: false,
+			material: 0,
+			extrudeMaterial: 1
+		};
+		
+		var rectGeo = new THREE.ExtrudeGeometry( rectShape, extrusionSettings );
+		
+		var materialCaps= new THREE.MeshBasicMaterial( { color: 0xffffff, transparent: true, opacity: 0 } );
+		var materialSide = new THREE.MeshPhongMaterial( { color: 0xcccccc  } );
+		materialSide.side = THREE.DoubleSide;
+		var materialArray = [ materialCaps, materialSide ];
+		var rectMat = new THREE.MeshFaceMaterial( materialArray );
+		
+		//create model and add to scene
+
+		var quantity = 50;
+
+		for ( var i = 0; i < quantity; i++ ) {
+
+			//
+			//var xVal = Math.pow( i,2) + i * -5;
+
+			//exponential
+			//var xVal = Math.pow( 1.5,i ) + i * -5;
+
+			//
+			var xVal = Math.pow( 1.4,i ) + Math.pow( i,2) + i*-5;
+
+			var rect = new THREE.Mesh( rectGeo, rectMat );
+			rect.position.set( 0, 0, xVal );
+			tH.add( rect );
+
+		}
+
+		//tH.position.set( 0, 0, -200 )
+		//tH.rotation.set( 0.75, 1.57, 0 )
+
+		new TWEEN.Tween( tH.position )
+			.to( { z:-150 }, 1500 )
+			//.delay( ( 1 - delay ) * 200 )
+			//.easing( TWEEN.Easing.Sinusoidal.InOut )
+			.start();
+
+		cleanTransition();		
+		setupTransition( tH );
+
 	}
-
-
 
 };
 
