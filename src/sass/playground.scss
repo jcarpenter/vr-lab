@@ -67,7 +67,7 @@ html, body {
 		list-style: none;
 		padding: 0; margin: 0;
 		font-size: 1em;
-		font-weight: 500;
+		font-weight: 400;
 		position: absolute;
 		top: 4em; left: 4em;
 	}
@@ -78,13 +78,13 @@ html, body {
 		bottom: 4em; left: 4em;
 
 		.title {
-			font-size: 2em;
-			font-weight: 700;
+			font-size: 1em;
+			font-weight: 600;
 			padding: 8em 0 0.2em;
 		}
 
 		.url {
-			font-size: 1.5em;
+			font-size: 1em;
 			font-weight: 500;
 			border: 0.2em solid white;
 			padding: 0.4em 0.5em;
@@ -94,8 +94,8 @@ html, body {
 
 		.tech {
 			font-size: 1em;
-			font-weight: 500;
-			padding: 1em 0 0;
+			font-weight: 400;
+			padding: 0.5em 0 0;
 			
 		}
 

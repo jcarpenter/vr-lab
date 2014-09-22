@@ -3,104 +3,6 @@ var vrEffect;
 var vrControls;
 var box, boxTween;
 
-
-var Link = function( label, url, categories, func ) {
-
-	var link;
-
-	self.label = label;
-	self.url = url;
-	self.categories = categories;
-
-	var li = document.createElement( "li" );
-	var txt = document.createTextNode( self.label );
-	// var a = document.createElement( "a" );
-	// a.appendChild( txt );
-	// a.href = self.url;
-	// a.target = "_blank"
-	li.appendChild( txt );
-	
-	var button = document.getElementById( "transitions" ).appendChild( li );
-	button.addEventListener('click', function() { 
-
-		//console.log( self.label ); 
-		window[func]();
-	
-	} );
-
-	return link;
-
-}
-
-
-var category = []
-category.push( "transitions" );
-category.push( "models" );
-category.push( "misc" );
-
-
-var transList = [
-	{
-		"label"			: "Cylinder Spin",
-		"url"			: "js/scenes/cylinder1.js",
-		"category"		: 0,
-		"func"			: "cylinder1",
-		"active"		: true
-	},
-	{
-		"label"			: "Teleport Hallway",
-		"url"			: "js/scenes/teleport1.js",
-		"category"		: 0,
-		"func"			: "teleport1",
-		"active"		: true
-	},
-	{
-		"label"			: "Fragment Reassemble",
-		"url"			: "js/scenes/fragment1.js",
-		"category"		: 0,
-		"func"			: "fragment1",
-		"active"		: true
-	},
-	{
-		"label"			: "Testing",
-		"url"			: "js/scenes/test.js",
-		"category"		: 0,
-		"func"			: "test",
-		"active"		: true
-	}
-];
-
-
-for ( var i = 0; i < transList.length; i++ ) {
-
-	//go through transList
-	//for each active
-	//import it's js, and create a link
-
-	var t = transList[i];
-
-	if ( t.active ) {
-	
-		var script = document.createElement( 'script' );
-		script.src = t.url;
-		script.onload = function() {
-			
-		};
-
-		document.head.appendChild( script );
-
-		var link = new Link( 
-			transList[i].label,
-			transList[i].url, 
-			transList[i].category,
-			transList[i].func
-		);
-
-	}
-
-}
-
-
 function init() {
 
 	container = document.getElementById( 'container' );
@@ -109,23 +11,17 @@ function init() {
 
 	scene = new THREE.Scene();
 
-	var light = new THREE.PointLight( 0xFFFFFF, 1.25 );
+	var light = new THREE.PointLight( 0xFFFFFF, 0.5, 2 );
 
 	light.position.set( 0, 0, 0 );
 	scene.add( light );
 
-	//background sphere
-	var bgGeo = new THREE.SphereGeometry( 500, 60, 40 );
-	bgGeo.applyMatrix( new THREE.Matrix4().makeScale( -1, 1, 1 ) );
+	/*
+	var light = new THREE.DirectionalLight( 0xffffff );
+	light.position.set( -1, -1, -1 ).normalize();
+	scene.add( light );
+	*/
 
-	var bgMat = new THREE.MeshBasicMaterial( {
-		map: THREE.ImageUtils.loadTexture( 'images/sechelt-360-1.png' )
-	} );
-
-	var background = new THREE.Mesh( bgGeo, bgMat );
-	scene.add(background);
-
-	//renderer
 	renderer = new THREE.WebGLRenderer( { antialias: true, alpha: true } );
 	renderer.setSize( window.innerWidth, window.innerHeight );
 	renderer.sortObjects = false;
@@ -176,6 +72,7 @@ function transitionsInit() {
 
 	var count = Object.keys(transitions).length;
 	
+
 	for ( var i = 1; i <= count; i++ ) {
 		
 		var name = 'tran'+i;
@@ -184,9 +81,11 @@ function transitionsInit() {
 		button.addEventListener('click', transitions[name]);
 		
 	}
+
+
 }
 
-var activeTransition; 
+var activeTransition;
 
 function cleanTransition() {
 
@@ -690,223 +589,9 @@ var transitions = {
 		cleanTransition();		
 		setupTransition( group );
 
-	},
-
-	'tran13': function() { 
-
-		//create holder
-		var tH = new THREE.Object3D();
-
-		var v1 = new THREE.Vector3( 0, 0, 0 );
-		var v2 = new THREE.Vector3( 0, 40, 0 );
-		var v3 = new THREE.Vector3( 40, 0, -0.5 );
-	
-		var geo = new THREE.Geometry();
-		geo.vertices.push( v1 );
-		geo.vertices.push( v2 );
-		geo.vertices.push( v3 );
-		geo.faces.push( new THREE.Face3( 0, 1, 2 ) );
-		
-		var material = new THREE.MeshBasicMaterial( { color: 0xf8bc4a, wireframe: false, transparent: true } );
-		material.side = THREE.DoubleSide;
-
-		var mesh = new THREE.Mesh( geo, material );
-		
-		tH.add( mesh );
-		tH.rotation.set( 0.5, 0.5, 0.5 );
-		tH.position.set( 0, 0, -1000 )
-		tH.scale.set( 8, 8, 8 )
-		cleanTransition();		
-		setupTransition( tH );
-
-	},
-
-	'tran14': function() { 
-
-		//create holder
-		var tH = new THREE.Object3D();
-
-		var rectPoints = [];
-		
-		rectPoints.push( new THREE.Vector2 (   10,  -5 ) );
-		rectPoints.push( new THREE.Vector2 (  10,  5 ) );
-		rectPoints.push( new THREE.Vector2 (  -10,  5 ) );
-		rectPoints.push( new THREE.Vector2 (  -10, -5 ) );
-		
-		var rectShape = new THREE.Shape( rectPoints );
-
-		var extrusionSettings = {
-			//size: 1,
-			amount: 4,
-			//curveSegments: 3,
-			//bevelThickness: 1,
-			//bevelSize: 2,
-			bevelEnabled: false,
-			material: 0,
-			extrudeMaterial: 1
-		};
-		
-		var rectGeo = new THREE.ExtrudeGeometry( rectShape, extrusionSettings );
-		
-		var materialFront = new THREE.MeshBasicMaterial( { color: 0xffffff, transparent: true, opacity: 0 } );
-		var materialSide = new THREE.MeshPhongMaterial( { color: 0xcccccc  } );
-		materialSide.side = THREE.DoubleSide;
-		var materialArray = [ materialFront, materialSide ];
-		var rectMat = new THREE.MeshFaceMaterial( materialArray );
-
-		//var rectMat = new THREE.MeshPhongMaterial( { color: 0xffff00, wireframe: false} );
-		
-		//create model and add to scene
-		var rect = new THREE.Mesh( rectGeo, rectMat );
-		tH.add( rect );
-		
-		// add a wireframe to model
-		// var wireframeTexture = new THREE.MeshBasicMaterial( { color: 0x000000, wireframe: true, transparent: true, opacity: 0.1 } ); 
-		// var rect = new THREE.Mesh( rectGeo, wireframeTexture );
-		// tH.add( rect );
-
-		tH.add( rect );
-		tH.position.set( 0, 0, -50 )
-		tH.rotation.set( .75, .75, 0 )
-		cleanTransition();		
-		setupTransition( tH );
-
-	},
-
-	'tran15': function() { 
-
-		//create holder
-		var tH = new THREE.Object3D();
-
-		var quantity = 25;
-		var gateSize = 10;
-		var spread = 10;
-		var xVal;
-		var coreSize = gateSize * 10;
-		var transitionTime = 15000;
-
-		var gatePoints = [];
-		gatePoints.push( new THREE.Vector2 (   10,  -5 ) );
-		gatePoints.push( new THREE.Vector2 (  10,  5 ) );
-		gatePoints.push( new THREE.Vector2 (  -10,  5 ) );
-		gatePoints.push( new THREE.Vector2 (  -10, -5 ) );
-
-		var gateShape = new THREE.Shape( gatePoints );
-		var gateGeo = new THREE.ExtrudeGeometry( gateShape, { amount: gateSize, bevelEnabled: false, material: 0, extrudeMaterial: 1 } );
-		
-		//material
-		var gateMatCaps = new THREE.MeshBasicMaterial( { color: 0xffffff, transparent: true, opacity: 0 } );
-		var gateMatSide = new THREE.MeshBasicMaterial( { color: 0xffffff  } );
-		gateMatSide.side = THREE.DoubleSide;
-		var gateMatArray = [ gateMatCaps, gateMatSide ];
-		var gateMat = new THREE.MeshFaceMaterial( gateMatArray );
-		
-		var coreGeo = new THREE.ExtrudeGeometry( gateShape, { amount: coreSize, bevelEnabled: false, material: 0, extrudeMaterial: 1 } );
-		var core1 = new THREE.Mesh( coreGeo, gateMat );
-		var core2 = new THREE.Mesh( coreGeo, gateMat );
-		core2.rotation.set( 0, 180 * Math.PI / 180, 0 )
-		tH.add( core1, core2 )
-
-		for ( var i = 0; i < quantity; i++ ) {
-
-			xVal = i * spread + ( Math.pow( 1.3,i ) ) + coreSize;
-
-			var gate1 = new THREE.Mesh( gateGeo, gateMat );
-			var gate2 = new THREE.Mesh( gateGeo, gateMat );
-			
-			gate1.position.set( 0, 0, xVal );
-			gate2.position.set( 0, 0, 0 - xVal - gateSize );
-
-			tH.add( gate1, gate2 );
-
-		}
-
-		//tH.position.set( 0, 200, -800 )
-		//tH.rotation.set( 1.57, 0, 0 )
-
-		tH.position.set( 0, 0, -1200 )
-
-		new TWEEN.Tween( tH.position )
-			.to( { z:1200 }, transitionTime )
-			//.delay( ( 1 - delay ) * 200 )
-			//.easing( TWEEN.Easing.Sinusoidal.InOut )
-			.start();
-
-		// new TWEEN.Tween( tH.rotation )
-		// 	.to( { z: 1480 * Math.PI / 180 }, transitionTime )
-		// 	.start();
-
-		cleanTransition();		
-		setupTransition( tH );
-
-	},
-
-	'tran16': function() { 
-
-		//create holder
-		var tH = new THREE.Object3D();
-
-		var rectPoints = [];
-		
-		rectPoints.push( new THREE.Vector2 (   10,  -5 ) );
-		rectPoints.push( new THREE.Vector2 (  10,  5 ) );
-		rectPoints.push( new THREE.Vector2 (  -10,  5 ) );
-		rectPoints.push( new THREE.Vector2 (  -10, -5 ) );
-		
-		var rectShape = new THREE.Shape( rectPoints );
-
-		var extrusionSettings = {
-			amount: 4,
-			bevelEnabled: false,
-			material: 0,
-			extrudeMaterial: 1
-		};
-		
-		var rectGeo = new THREE.ExtrudeGeometry( rectShape, extrusionSettings );
-		
-		var materialCaps = new THREE.MeshBasicMaterial( { color: 0xffffff, transparent: true, opacity: 0 } );
-		var materialSide = new THREE.MeshPhongMaterial( { color: 0xcccccc  } );
-		materialSide.side = THREE.DoubleSide;
-		var materialArray = [ materialCaps, materialSide ];
-		var rectMat = new THREE.MeshFaceMaterial( materialArray );
-		
-		//create model and add to scene
-
-		var quantity = 30;
-
-		for ( var i = 0; i < quantity; i++ ) {
-
-			var xPos
-
-			if( i < 10 ) {
-				xPos = i * 2;
-			} else if ( i < 20 ) {
-				xPos = i * 4;
-			} else if ( i < 30 ) {
-				xPos = i * 6;
-			}
-
-			var rect = new THREE.Mesh( rectGeo, rectMat );
-			rect.position.set( 0, 0, xPos );
-			tH.add( rect );		
-
-		}
-
-		tH.position.set( 0, 0, -300 )
-		tH.rotation.set( 0.75, 0.35, 0 )
-
-		/*
-		new TWEEN.Tween( tH.position )
-			.to( { z:-150 }, 1500 )
-			//.delay( ( 1 - delay ) * 200 )
-			//.easing( TWEEN.Easing.Sinusoidal.InOut )
-			.start();
-		*/
-
-		cleanTransition();		
-		setupTransition( tH );
-
 	}
+
+
 
 };
 
