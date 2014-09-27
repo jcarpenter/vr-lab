@@ -2,6 +2,7 @@ var gulp = require('gulp')
 	jade = require('gulp-jade')
 	sass = require('gulp-sass')
 	deploy = require('gulp-gh-pages');
+	connect = require('gulp-connect');
 
 gulp.task('styles', function() {
 	return gulp.src('./src/sass/**/*.scss')
@@ -30,13 +31,13 @@ gulp.task('fonts', function() {
 		.pipe(gulp.dest('build/development/fonts'))
 })
 
-gulp.task('deploy', function() {
-	return gulp.src('./build/development/**/*')
-		.pipe(deploy())
-})
+gulp.task('connect', function() {
+  connect.server();
+});
+
 
 gulp.task('default', function() {
-	gulp.run('styles', 'content', 'images', 'scripts', 'fonts');
+	gulp.run('styles', 'content', 'images', 'scripts', 'fonts', 'connect');
 	gulp.watch('./src/sass/**', function(event) {
 		gulp.run('styles');
 	});
@@ -49,5 +50,11 @@ gulp.task('default', function() {
 	gulp.watch('./src/scripts/**', function(event) {
 		gulp.run('scripts');
 	});
+})
+
+
+gulp.task('deploy', function() {
+	return gulp.src('./build/development/**/*')
+		.pipe(deploy())
 })
 

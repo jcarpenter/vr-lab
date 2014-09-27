@@ -1,4 +1,4 @@
-function teleport1() {
+function extrude1() {
 
 	//create holder
 	var tH = new THREE.Object3D();
@@ -13,7 +13,11 @@ function teleport1() {
 	var rectShape = new THREE.Shape( rectPoints );
 
 	var extrusionSettings = {
+		//size: 1,
 		amount: 4,
+		//curveSegments: 3,
+		//bevelThickness: 1,
+		//bevelSize: 2,
 		bevelEnabled: false,
 		material: 0,
 		extrudeMaterial: 1
@@ -21,46 +25,28 @@ function teleport1() {
 	
 	var rectGeo = new THREE.ExtrudeGeometry( rectShape, extrusionSettings );
 	
-	var materialCaps = new THREE.MeshBasicMaterial( { color: 0xffffff, transparent: true, opacity: 0 } );
+	var materialFront = new THREE.MeshBasicMaterial( { color: 0xffffff, transparent: true, opacity: 0 } );
 	var materialSide = new THREE.MeshPhongMaterial( { color: 0xcccccc  } );
 	materialSide.side = THREE.DoubleSide;
-	var materialArray = [ materialCaps, materialSide ];
+	var materialArray = [ materialFront, materialSide ];
 	var rectMat = new THREE.MeshFaceMaterial( materialArray );
+
+	//var rectMat = new THREE.MeshPhongMaterial( { color: 0xffff00, wireframe: false} );
 	
 	//create model and add to scene
+	var rect = new THREE.Mesh( rectGeo, rectMat );
+	tH.add( rect );
+	
+	// add a wireframe to model
+	// var wireframeTexture = new THREE.MeshBasicMaterial( { color: 0x000000, wireframe: true, transparent: true, opacity: 0.1 } ); 
+	// var rect = new THREE.Mesh( rectGeo, wireframeTexture );
+	// tH.add( rect );
 
-	var quantity = 30;
-
-	for ( var i = 0; i < quantity; i++ ) {
-
-		var xPos
-
-		if( i < 10 ) {
-			xPos = i * 2;
-		} else if ( i < 20 ) {
-			xPos = i * 4;
-		} else if ( i < 30 ) {
-			xPos = i * 6;
-		}
-
-		var rect = new THREE.Mesh( rectGeo, rectMat );
-		rect.position.set( 0, 0, xPos );
-		tH.add( rect );		
-
-	}
-
-	tH.position.set( 0, 0, -300 )
-	tH.rotation.set( 0.75, 0.35, 0 )
-
-	/*
-	new TWEEN.Tween( tH.position )
-		.to( { z:-150 }, 1500 )
-		//.delay( ( 1 - delay ) * 200 )
-		//.easing( TWEEN.Easing.Sinusoidal.InOut )
-		.start();
-	*/
-
+	tH.add( rect );
+	tH.position.set( 0, 0, -50 )
+	tH.rotation.set( .75, .75, 0 )
 	cleanTransition();		
 	setupTransition( tH );
+
 
 }
