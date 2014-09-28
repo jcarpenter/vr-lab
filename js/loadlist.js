@@ -2,10 +2,25 @@ var category = []
 category.push( "Transitions" );
 category.push( "Models" );
 category.push( "Misc" );
+category.push( "Mockup" );
 
 
 var transList = [
 
+	{
+		"label"			: "Cylinder mockups",
+		"url"			: "js/scenes/mockups1.js",
+		"category"		: 3,
+		"func"			: "mockups1",
+		"active"		: true
+	},
+	{
+		"label"			: "Plane mockups",
+		"url"			: "js/scenes/mockups2.js",
+		"category"		: 3,
+		"func"			: "mockups2",
+		"active"		: true
+	},
 	{
 		"label"			: "Teleport Hallway",
 		"url"			: "js/scenes/teleport2.js",
@@ -78,7 +93,7 @@ var transList = [
 	},
 
 
-
+	/*
 	{
 		"label"			: "Teleport Hallway",
 		"url"			: "js/scenes/teleport1.js",
@@ -107,5 +122,6 @@ var transList = [
 		"func"			: "tetra1",
 		"active"		: true
 	},
+	*/
 
 ];

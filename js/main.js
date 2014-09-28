@@ -23,7 +23,6 @@ var Link = function( label, url, categories, func ) {
 	var button = document.getElementById( "transitions" ).appendChild( li );
 	button.addEventListener('click', function() { 
 
-		//console.log( self.label ); 
 		window[func]();
 	
 	} );
@@ -111,7 +110,8 @@ function init() {
 	window.addEventListener( 'resize', onWindowResize, false );
 }
 
-function onkey(event) {
+
+function onkey( event ) {
 
   if (event.charCode == 'f'.charCodeAt(0)) {
     vrEffect.setFullScreen( true );
@@ -139,9 +139,8 @@ function cleanTransition() {
 		TWEEN.removeAll;
 	}
 
-	console.log("Cleaned Up!")
-
 }
+
 
 function setupTransition(m) {
 

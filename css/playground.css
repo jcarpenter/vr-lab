@@ -1,5 +1,6 @@
 html, body {
   background-color: #f8bc4a;
+  background-image: url('../images/2560x1440-2.png');
   color: white;
   margin: 0;
   padding: 0;
@@ -8,8 +9,7 @@ html, body {
   font-style: normal;
   font-size: 10pt;
   width: 100%;
-  height: 100%;
-  overflow: hidden; }
+  height: 100%; }
 
 #fullscreenButton {
   display: inline-block;
@@ -22,9 +22,8 @@ html, body {
   bottom: 4em;
   right: 4em; }
 
-#fullscreenButton:hover {
-  cursor: pointer;
-  background-color: rgba(255, 255, 255, 0.25); }
+.button:hover {
+  cursor: pointer; }
 
 #transitions {
   position: absolute;
