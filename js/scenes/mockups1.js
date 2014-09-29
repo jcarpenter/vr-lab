@@ -11,6 +11,11 @@ function mockups1() {
 	var height = circumference / 4;
 
 	var mockups = [
+		'opensans3',
+		'opensans2',
+		'opensans1',
+		'sizetest1',
+		'monsterat1',
 		'green1',
 		'green2',
 		'green3',
@@ -55,6 +60,7 @@ function mockups1() {
 
 	mesh.scale.set( -1, 1, 1 );
 
+	holder.position.set( 0, -4, 0 )
 	holder.add( mesh );
 
 	function loadTex() {
@@ -81,7 +87,7 @@ function mockups1() {
 
 			counter --;
 
-			if( counter <= 0 ) { 
+			if( counter < 0 ) { 
 				counter = mockups.length - 1;
 			}
 			
