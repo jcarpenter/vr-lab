@@ -2,6 +2,7 @@ var camera, scene, renderer;
 var vrEffect;
 var vrControls;
 var box, boxTween;
+var demoCounter = 0;
 
 
 var Link = function( label, url, categories, func ) {
@@ -80,7 +81,7 @@ function init() {
 	bgGeo.applyMatrix( new THREE.Matrix4().makeScale( -1, 1, 1 ) );
 
 	var bgMat = new THREE.MeshBasicMaterial( {
-		map: THREE.ImageUtils.loadTexture( 'images/sechelt-360-1.png' )
+		map: THREE.ImageUtils.loadTexture( 'images/sechelt-360-2.png' )
 	} );
 
 	var background = new THREE.Mesh( bgGeo, bgMat );
@@ -110,17 +111,41 @@ function init() {
 	window.addEventListener( 'resize', onWindowResize, false );
 }
 
+
 function onkey( event ) {
 
-  if (event.charCode == 'f'.charCodeAt(0)) {
+  if ( event.charCode == 'f'.charCodeAt(0) ) {
+    
+    //turn on fullscreen
     vrEffect.setFullScreen( true );
-    console.log("F");
-  } else if (event.charCode == 'v'.charCodeAt(0)) {
-    console.log("V");
-  } else if (event.charCode == 'x'.charCodeAt(0)) {
-    console.log("X");
-  } else {
-  	return;
+
+  } else if ( event.charCode == 'v'.charCodeAt(0) ) {
+
+    //active first function
+    window[ transList[0].func ]();
+
+  } else if ( event.keyCode == '38' ) {
+
+    //up arrow: active previous function
+    demoCounter --;
+
+	if( demoCounter < 0 ) { 
+		demoCounter = transList.length - 1;
+	}
+
+	window[ transList[demoCounter].func ]();
+
+  } else if ( event.keyCode == '40' ) {
+
+  	//down arrow: active next function
+  	demoCounter ++;
+
+	if( demoCounter == transList.length ) { 
+		demoCounter = 0;
+	}
+
+	window[ transList[demoCounter].func ]();
+
   }
 
   event.preventDefault();
@@ -138,9 +163,8 @@ function cleanTransition() {
 		TWEEN.removeAll;
 	}
 
-	console.log("Cleaned Up!")
-
 }
+
 
 function setupTransition(m) {
 

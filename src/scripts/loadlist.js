@@ -8,10 +8,17 @@ category.push( "Mockup" );
 var transList = [
 
 	{
-		"label"			: "Mockups, Sept 25",
+		"label"			: "Cylinder mockups",
 		"url"			: "js/scenes/mockups1.js",
 		"category"		: 3,
 		"func"			: "mockups1",
+		"active"		: true
+	},
+	{
+		"label"			: "Plane mockups",
+		"url"			: "js/scenes/mockups2.js",
+		"category"		: 3,
+		"func"			: "mockups2",
 		"active"		: true
 	},
 	{

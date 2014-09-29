@@ -6,10 +6,19 @@ function mockups1() {
 	//create plane
 	//create 
 
-	var radius = 50;
+	var radius = 50;	
+	var circumference = radius * 2 * 3.14;
+	var height = circumference / 4;
 
 	var mockups = [
-		'testpattern2',
+		'opensans3',
+		'opensans2',
+		'opensans1',
+		'sizetest1',
+		'monsterat1',
+		'green1',
+		'green2',
+		'green3',
 		'doorhanger',
 		'history',
 		'home',
@@ -20,40 +29,54 @@ function mockups1() {
 		'notification',
 		'quickmenu3',
 		'quickmenu2',
-		'quickmenu1'
+		'quickmenu1',
+		'testpattern2',
 	]
 
 	var counter = 0;
 
 	var holder = new THREE.Object3D();
 
-	var activeMesh = new THREE.Mesh(
+	/*
+	var mesh = new THREE.Mesh(
 		new THREE.PlaneGeometry( 220, 80, 1, 1 ),
 		new THREE.MeshBasicMaterial( { transparent: true, map: THREE.ImageUtils.loadTexture( 'images/mockups1/' + mockups[counter] + '.png' ) } )
 	)
 
-	activeMesh.material.side = THREE.DoubleSide;
-	activeMesh.material.opacity = 0;
-
+	mesh.material.side = THREE.DoubleSide;
+	mesh.material.opacity = 0;
+	
 	holder.position.set( 0, 0, 0 - radius);
-	holder.add( activeMesh );
+	*/
 
+	mesh = new THREE.Mesh(
+		new THREE.CylinderGeometry( radius, radius, height, 60, 1, true ),
+		new THREE.MeshBasicMaterial( { 
+			transparent: true, 
+			side: THREE.DoubleSide,
+			map: THREE.ImageUtils.loadTexture( 'images/mockups1/' + mockups[counter] + '.png' )
+		} )
+	);
+
+	mesh.scale.set( -1, 1, 1 );
+
+	holder.position.set( 0, -4, 0 )
+	holder.add( mesh );
 
 	function loadTex() {
 		
-		new TWEEN.Tween( activeMesh.material )
-			.to({ opacity: 0}, 500 )
+		new TWEEN.Tween( mesh.material )
+			.to({ opacity: 0}, 300 )
 			.onComplete(function() {
 
-				activeMesh.material.map = THREE.ImageUtils.loadTexture( 'images/mockups1/' + mockups[counter] + '.png', THREE.UVMapping, function() {
+				mesh.material.map = THREE.ImageUtils.loadTexture( 'images/mockups1/' + mockups[counter] + '.png', THREE.UVMapping, function() {
 
-					new TWEEN.Tween( activeMesh.material )
-						.to({ opacity: 1}, 500)
+					new TWEEN.Tween( mesh.material )
+						.to({ opacity: 1}, 300)
 						.start();
 				})
 			})
 			.start()
-
 	}
 
 	loadTex();
@@ -64,7 +87,7 @@ function mockups1() {
 
 			counter --;
 
-			if( counter <= 0 ) { 
+			if( counter < 0 ) { 
 				counter = mockups.length - 1;
 			}
 			
@@ -82,30 +105,7 @@ function mockups1() {
 
 		} else if ( event.charCode == 'c'.charCodeAt(0) ) {
 
-			holder.remove( activeMesh );
-
-			activeMesh = new THREE.Mesh(
-				new THREE.CylinderGeometry( radius, radius, 80, 60, 1, true ),
-				new THREE.MeshBasicMaterial( { transparent: true, map: THREE.ImageUtils.loadTexture( 'images/mockups1/' + mockups[counter] + '.png' ), side: THREE.DoubleSide } )
-			);
-
-			activeMesh.geometry.dynamic = true
-			activeMesh.geometry.__dirtyVertices = true;
-			activeMesh.geometry.__dirtyNormals = true;
-
-			activeMesh.flipSided = true;
-
-			for(var i = 0; i<activeMesh.geometry.faces.length; i++) {
-			    activeMesh.geometry.faces[i].normal.x = -1*activeMesh.geometry.faces[i].normal.x;
-			    activeMesh.geometry.faces[i].normal.y = -1*activeMesh.geometry.faces[i].normal.y;
-			    activeMesh.geometry.faces[i].normal.z = -1*activeMesh.geometry.faces[i].normal.z;
-			}
-			activeMesh.geometry.computeVertexNormals();
-			activeMesh.geometry.computeFaceNormals();
-
-			activeMesh.position.set( 0, 0, radius );
-
-			holder.add( activeMesh )
+			console.log( 'c' );
 
 		}
 
