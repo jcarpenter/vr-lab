@@ -8,14 +8,21 @@ category.push( "Mockup" );
 var transList = [
 
 	{
-		"label"			: "Cylinder mockups",
-		"url"			: "js/scenes/mockups1.js",
+		"label"			: "Mockups on cylinder",
+		"url"			: "js/scenes/mockups_360cm.js",
 		"category"		: 3,
-		"func"			: "mockups1",
+		"func"			: "mockups_360cm",
 		"active"		: true
 	},
 	{
-		"label"			: "Plane mockups",
+		"label"			: "Mockups on cylinder (old)",
+		"url"			: "js/scenes/mockups_314cm.js",
+		"category"		: 3,
+		"func"			: "mockups_314cm",
+		"active"		: true
+	},
+	{
+		"label"			: "Mockups on cylinder (old)",
 		"url"			: "js/scenes/mockups2.js",
 		"category"		: 3,
 		"func"			: "mockups2",
