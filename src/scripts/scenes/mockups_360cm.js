@@ -12,6 +12,7 @@ function mockups_360cm() {
 	var height = circumference / 4;
 
 	var mockups = [
+		'firatech-home2',
 		'firatech-home1',
 		'sizetest1',
 		'thunderbolt-display',
