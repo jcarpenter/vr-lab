@@ -1,4 +1,4 @@
-function mockups_314cm() {
+function mockups_360cm() {
 
 	//create a mockup holder
 	//return it to setupTransition();
@@ -6,75 +6,57 @@ function mockups_314cm() {
 	//create plane
 	//create 
 
-	var radius = 50;	
-	var circumference = radius * 2 * 3.14;
+		
+	var circumference = 360;
+	var radius = circumference / 3.14 / 2;
 	var height = circumference / 4;
 
 	var mockups = [
-		'firatech2',
-		'firatech1',
-		'opensans4',
-		'opensans3',
-		'opensans2',
-		'opensans1',
+		'firatech-home1',
 		'sizetest1',
-		'monsterat1',
-		'green1',
-		'green2',
-		'green3',
-		'doorhanger',
-		'history',
-		'home',
-		'loading',
-		'locationbars',
-		'menu1',
-		'menu2',
-		'notification',
-		'quickmenu3',
-		'quickmenu2',
-		'quickmenu1',
-		'testpattern2',
+		'thunderbolt-display',
+		'grid',
 	]
 
 	var counter = 0;
 
 	var holder = new THREE.Object3D();
 
-	/*
-	var mesh = new THREE.Mesh(
-		new THREE.PlaneGeometry( 220, 80, 1, 1 ),
-		new THREE.MeshBasicMaterial( { transparent: true, map: THREE.ImageUtils.loadTexture( 'images/mockups1/' + mockups[counter] + '.png' ) } )
-	)
-
-	mesh.material.side = THREE.DoubleSide;
-	mesh.material.opacity = 0;
-	
-	holder.position.set( 0, 0, 0 - radius);
-	*/
-
-	mesh = new THREE.Mesh(
+	mockup = new THREE.Mesh(
 		new THREE.CylinderGeometry( radius, radius, height, 60, 1, true ),
 		new THREE.MeshBasicMaterial( { 
 			transparent: true, 
 			side: THREE.DoubleSide,
-			map: THREE.ImageUtils.loadTexture( 'images/mockups1/' + mockups[counter] + '.png' )
+			map: THREE.ImageUtils.loadTexture( 'images/mockups_360cm/' + mockups[counter] + '.png' )
 		} )
 	);
 
-	mesh.scale.set( -1, 1, 1 );
+	mockup.scale.set( -1, 1, 1 );
+
+	grid = new THREE.Mesh(
+		new THREE.CylinderGeometry( radius + 1, radius + 1, height, 60, 1, true ),
+		new THREE.MeshBasicMaterial( { 
+			transparent: true, 
+			side: THREE.DoubleSide,
+			map: THREE.ImageUtils.loadTexture( 'images/mockups_360cm/grid.png' )
+		} )
+	);
+
+	grid.scale.set( -1, 1, 1 );
 
 	holder.position.set( 0, 0, 0 )
-	holder.add( mesh );
+	holder.add( grid );
+	holder.add( mockup );
 
 	function loadTex() {
 		
-		new TWEEN.Tween( mesh.material )
+		new TWEEN.Tween( mockup.material )
 			.to({ opacity: 0}, 300 )
 			.onComplete(function() {
 
-				mesh.material.map = THREE.ImageUtils.loadTexture( 'images/mockups1/' + mockups[counter] + '.png', THREE.UVMapping, function() {
+				mockup.material.map = THREE.ImageUtils.loadTexture( 'images/mockups_360cm/' + mockups[counter] + '.png', THREE.UVMapping, function() {
 
-					new TWEEN.Tween( mesh.material )
+					new TWEEN.Tween( mockup.material )
 						.to({ opacity: 1}, 300)
 						.start();
 				})

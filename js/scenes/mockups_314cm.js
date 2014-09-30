@@ -41,40 +41,40 @@ function mockups_314cm() {
 	var holder = new THREE.Object3D();
 
 	/*
-	var mesh = new THREE.Mesh(
+	var mockup = new THREE.Mesh(
 		new THREE.PlaneGeometry( 220, 80, 1, 1 ),
 		new THREE.MeshBasicMaterial( { transparent: true, map: THREE.ImageUtils.loadTexture( 'images/mockups1/' + mockups[counter] + '.png' ) } )
 	)
 
-	mesh.material.side = THREE.DoubleSide;
-	mesh.material.opacity = 0;
+	mockup.material.side = THREE.DoubleSide;
+	mockup.material.opacity = 0;
 	
 	holder.position.set( 0, 0, 0 - radius);
 	*/
 
-	mesh = new THREE.Mesh(
+	mockup = new THREE.Mesh(
 		new THREE.CylinderGeometry( radius, radius, height, 60, 1, true ),
 		new THREE.MeshBasicMaterial( { 
 			transparent: true, 
 			side: THREE.DoubleSide,
-			map: THREE.ImageUtils.loadTexture( 'images/mockups1/' + mockups[counter] + '.png' )
+			map: THREE.ImageUtils.loadTexture( 'images/mockups_314cm/' + mockups[counter] + '.png' )
 		} )
 	);
 
-	mesh.scale.set( -1, 1, 1 );
+	mockup.scale.set( -1, 1, 1 );
 
 	holder.position.set( 0, 0, 0 )
-	holder.add( mesh );
+	holder.add( mockup );
 
 	function loadTex() {
 		
-		new TWEEN.Tween( mesh.material )
+		new TWEEN.Tween( mockup.material )
 			.to({ opacity: 0}, 300 )
 			.onComplete(function() {
 
-				mesh.material.map = THREE.ImageUtils.loadTexture( 'images/mockups1/' + mockups[counter] + '.png', THREE.UVMapping, function() {
+				mockup.material.map = THREE.ImageUtils.loadTexture( 'images/mockups_314cm/' + mockups[counter] + '.png', THREE.UVMapping, function() {
 
-					new TWEEN.Tween( mesh.material )
+					new TWEEN.Tween( mockup.material )
 						.to({ opacity: 1}, 300)
 						.start();
 				})

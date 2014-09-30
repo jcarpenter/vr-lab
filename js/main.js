@@ -114,42 +114,46 @@ function init() {
 
 function onkey( event ) {
 
-  if ( event.charCode == 'f'.charCodeAt(0) ) {
-    
-    //turn on fullscreen
-    vrEffect.setFullScreen( true );
 
-  } else if ( event.charCode == 'v'.charCodeAt(0) ) {
-
-    //active first function
-    window[ transList[0].func ]();
-
-  } else if ( event.keyCode == '38' ) {
-
-    //up arrow: active previous function
-    demoCounter --;
-
-	if( demoCounter < 0 ) { 
-		demoCounter = transList.length - 1;
+	if (!(event.metaKey || event.altKey || event.ctrlKey)) {
+		event.preventDefault();
 	}
 
-	window[ transList[demoCounter].func ]();
+	if ( event.charCode == 'f'.charCodeAt(0) ) {
 
-  } else if ( event.keyCode == '40' ) {
+		//turn on fullscreen
+		vrEffect.setFullScreen( true );
 
-  	//down arrow: active next function
-  	demoCounter ++;
+	} else if ( event.charCode == 'v'.charCodeAt(0) ) {
 
-	if( demoCounter == transList.length ) { 
-		demoCounter = 0;
+		//active first function
+		window[ transList[0].func ]();
+
+	} else if ( event.keyCode == '38' ) {
+
+		//up arrow: active previous function
+		demoCounter --;
+
+		if( demoCounter < 0 ) { 
+			demoCounter = transList.length - 1;
+		}
+
+		window[ transList[demoCounter].func ]();
+
+	} else if ( event.keyCode == '40' ) {
+
+		//down arrow: active next function
+		demoCounter ++;
+
+		if( demoCounter == transList.length ) { 
+			demoCounter = 0;
+		}
+
+		window[ transList[demoCounter].func ]();
+
 	}
 
-	window[ transList[demoCounter].func ]();
-
-  }
-
-  event.preventDefault();
-  event.stopPropagation();
+	event.stopPropagation();
 
 }
 
