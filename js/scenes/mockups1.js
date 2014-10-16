@@ -1,4 +1,4 @@
-function mockups1() {
+function mockups_314cm() {
 
 	//create a mockup holder
 	//return it to setupTransition();
@@ -11,6 +11,9 @@ function mockups1() {
 	var height = circumference / 4;
 
 	var mockups = [
+		'firatech2',
+		'firatech1',
+		'opensans4',
 		'opensans3',
 		'opensans2',
 		'opensans1',
@@ -60,7 +63,7 @@ function mockups1() {
 
 	mesh.scale.set( -1, 1, 1 );
 
-	holder.position.set( 0, -4, 0 )
+	holder.position.set( 0, 0, 0 )
 	holder.add( mesh );
 
 	function loadTex() {
