@@ -8,6 +8,20 @@ category.push( "Mockup" );
 var transList = [
 
 	{
+		"label"			: "Hemisphere 2",
+		"url"			: "js/scenes/hemisphere2.js",
+		"category"		: 3,
+		"func"			: "hemisphere2",
+		"active"		: true
+	},
+	{
+		"label"			: "Hemisphere 1",
+		"url"			: "js/scenes/hemisphere1.js",
+		"category"		: 3,
+		"func"			: "hemisphere1",
+		"active"		: true
+	},
+	{
 		"label"			: "Mockups on cylinder",
 		"url"			: "js/scenes/mockups_360cm.js",
 		"category"		: 3,
