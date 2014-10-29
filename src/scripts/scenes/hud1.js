@@ -145,7 +145,7 @@ function hud1() {
 	back.add( cube );
 
 	var arrow;
-	loader.load( 'images/hud1/back.json', function ( object ) {
+	loader.load( 'models/back.json', function ( object ) {
 		arrow = object;
 		arrow.scale.set( 0.007, 0.007, 0.007 );
 		back.add( arrow );
