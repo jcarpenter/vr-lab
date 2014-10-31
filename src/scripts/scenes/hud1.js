@@ -230,7 +230,7 @@ function hud1() {
 
   }	
 
-  // makeTutorial();
+  makeTutorial();
 
 
 
