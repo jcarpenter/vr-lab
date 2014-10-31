@@ -112,13 +112,13 @@ function hemisphere2() {
 
 	var globe = fragment( geometry, material ) // fragment geometry
 
-  globe.children.sort( function ( a, b ) { //sort the pieces
+	  globe.children.sort( function ( a, b ) { //sort the pieces
 
-    return b.position.z - a.position.z;
-    //return a.position.x - b.position.x;    // sort x
-    //return b.position.y - a.position.y;   // sort y
+	    return b.position.z - a.position.z;
+	    //return a.position.x - b.position.x;    // sort x
+	    //return b.position.y - a.position.y;   // sort y
 
-  } );
+	  } );
 
 	globe.position.set( 0, 0, -10 );
 	globe.rotation.set( Math.PI / 4, 0, 0 );

@@ -67,7 +67,7 @@ function init() {
 
 	container = document.getElementById( 'container' );
 
-	camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 10000 );
+	camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.1, 10000 );
 
 	scene = new THREE.Scene();
 
@@ -123,6 +123,11 @@ function onkey( event ) {
 
 		//turn on fullscreen
 		vrEffect.setFullScreen( true );
+
+	} else if ( event.charCode == 'z'.charCodeAt(0) ) {
+
+		//zero sensor
+		vrControls.zeroSensor();
 
 	} else if ( event.charCode == 'v'.charCodeAt(0) ) {
 
