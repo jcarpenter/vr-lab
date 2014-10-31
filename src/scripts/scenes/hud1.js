@@ -14,11 +14,6 @@ function hud1() {
 	//////////////////	Cap
 
 
-	/* Make caps */
-
-	/* Make rings */
-
-	/* Make screens */
 
 	var circumference = 6.25;
 	var radius = circumference / 3.14 / 2;
@@ -26,14 +21,228 @@ function hud1() {
 	var holder = new THREE.Object3D();
 	var loader = new THREE.ObjectLoader();
 
-	console.log( radius );
-
 	// 1.00 	Glass
 	// 0.90 	Screen elements
 	// 0.80 	Screen elements 2
 	// 0.75 	Inside of he
 	// 0.70		Inside of helmet elements
 	// 0.50		Foreground indicators & glowing lights
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	/* Fragment function */
+
+	function fragment( geometry, material ) {
+
+    var group = new THREE.Group();
+
+    for ( var i = 0; i < geometry.faces.length; i ++ ) {
+
+      var face = geometry.faces[ i ];
+
+      var vertexA = geometry.vertices[ face.a ].clone();
+      var vertexB = geometry.vertices[ face.b ].clone();
+      var vertexC = geometry.vertices[ face.c ].clone();
+
+      var geometry2 = new THREE.Geometry();
+      geometry2.vertices.push( vertexA, vertexB, vertexC );
+      geometry2.faces.push( new THREE.Face3( 0, 1, 2 ) );
+
+      var mesh = new THREE.Mesh( geometry2, material );
+      mesh.position.sub( geometry2.center() );
+      group.add( mesh );
+
+    }
+    return group;
+  }
+
+
+  function makeFigure() {
+
+		var figure = new THREE.Object3D();
+
+		loader.load( 'models/figure.json', function( object ){
+			
+			//scale down the model
+			var geometry = object.geometry;
+			geometry.verticesNeedUpdate = true;
+			geometry.applyMatrix( new THREE.Matrix4().makeScale( 0.02, 0.02, 0.02 ) );
+			
+			//could just import this as the mesh, instead of feeding the geometry and material into new mesh. Six of one, half dozen of the other.
+			var mesh = new THREE.Mesh( 
+				geometry, 
+				new THREE.MeshPhongMaterial( { color: 0xffffff, transparent: true, opacity: 1 } )
+			);
+
+			figure.add( mesh );
+
+		});
+
+		return figure;
+
+	};
+
+
+  function makeHUD() {
+
+  	var hud = new THREE.Object3D();
+  	var hudRadius = 0.08;
+	  var hudHeight = 0.04;
+	 
+	 	// make display
+	  var geometry = new THREE.CylinderGeometry( hudRadius, hudRadius, hudHeight, 46, 1, true );
+	  var material = new THREE.MeshBasicMaterial( { color: 0x22caf0, transparent: true, opacity: 0.5, side: THREE.DoubleSide } );
+	  var ui = new THREE.Mesh( geometry, material );
+	  hud.add( ui );
+
+	  // make top and bottom circles
+	  var material = new THREE.LineBasicMaterial( { color: 0xffffff, linewidth: 1 } );
+	  var geometry = new THREE.CircleGeometry( hudRadius, 46 );
+	  geometry.vertices.shift(); // remove center vertex
+	  
+	  var line = new THREE.Line( geometry, material );
+	  line.position.set( 0, 0 - hudHeight / 2, 0 );
+	  line.rotation.set( Math.PI / 2, 0, 0 )
+	  hud.add( line );
+	  
+	  var line = new THREE.Line( geometry, material );
+	  line.position.set( 0, hudHeight / 2, 0 );
+	  line.rotation.set( Math.PI / 2, 0, 0 )
+	  hud.add( line );
+
+	  return hud;
+
+  }
+
+
+  function makeGlobe() {
+
+		//THREE.SphereGeometry( radius, segmentsWidth, segmentsHeight, 		phiStart, phiLength, thetaStart, thetaLength );
+		var geometry = new THREE.SphereGeometry( 0.25, 12, 12, Math.PI, Math.PI, 0, Math.PI );
+		var material = new THREE.MeshBasicMaterial( { color: 0xffffff, transparent: true, opacity: 0.5, side: THREE.BackSide } );
+
+		var globe = fragment( geometry, material ) // fragment geometry
+
+		globe.children.sort( function ( a, b ) { //sort the pieces
+
+			//return b.position.z - a.position.z;
+			//return a.position.x - b.position.x;    // sort x
+			return a.position.y - b.position.y;   // sort y
+
+		} );
+		
+		return globe;
+
+  }
+
+
+	function makeDarkBG() {
+
+		var geometry = new THREE.SphereGeometry( 0.8, 16, 16 );
+		var material = new THREE.MeshBasicMaterial( { color: 0x000000, transparent: true, opacity: 0, side: THREE.BackSide } );
+		var mesh = new THREE.Mesh( geometry, material );
+		
+		return mesh ;
+
+	}
+
+
+  function makeTutorial() {
+
+  	var tutorial = new THREE.Object3D();
+  	var diagram = new THREE.Object3D();
+  	
+  	var hud = makeHUD();
+  	var figure = makeFigure();
+  	var globe = makeGlobe();
+  	var bg = makeDarkBG();
+  	
+  	diagram.add( globe );
+  	diagram.add( figure );
+  	figure.add( hud );
+  	tutorial.add( diagram );
+  	tutorial.add( bg );
+
+		diagram.position.set( 0, -0.09, -0.5 );
+		figure.position.set( 0, -0.18, 0 );
+		hud.position.set( 0, 0.33, 0 );
+
+  	holder.add( tutorial );
+
+  	//animate
+
+  	function openTutorial() {
+
+	  	hud.scale.set( 1, 0.01, 1 );
+			new TWEEN.Tween( hud.scale )
+				.to( { y: 1 }, 2000 )
+				.delay( 500 )
+	   		.easing( TWEEN.Easing.Cubic.Out )
+				.start();
+
+			new TWEEN.Tween( figure.rotation )
+				.to( { y: Math.PI * 2 }, 10000 )
+	   		.easing( TWEEN.Easing.Cubic.Out )
+				.start();
+
+			bg.material.opacity = 0;
+			new TWEEN.Tween( bg.material )
+				.to( { opacity: 0.5 }, 1000 )
+	   		.easing( TWEEN.Easing.Cubic.Out )
+				.start();
+
+			for ( var i = 0; i < globe.children.length; i ++ ) {
+
+			  var object = globe.children[i];
+			  var delay = 200 + i * 7;
+
+			  /*
+			  var destZ = object.position.z;
+			  object.position.setZ( destZ + 0.2 );
+			  new TWEEN.Tween( object.position )
+			    .to( { z: destZ  }, 1000 )
+			    .delay( delay )
+			   	.easing( TWEEN.Easing.Cubic.Out )
+			    .start();
+			  */
+
+			  object.scale.set( 0.01, 0.01, 0.01 )
+			  new TWEEN.Tween( object.scale )
+			    .to( { x:0.97, y:0.97, z:0.97 }, 1000 )
+			    .delay( delay )
+			    .easing( TWEEN.Easing.Cubic.Out )
+			    .start();
+		  }
+  	}
+
+  	var timeoutID = window.setTimeout( openTutorial, 2000 );
+
+  }	
+
+  // makeTutorial();
+
+
+
+
+
+
+
+
+
+
+
+
 
 	/* Remembder to declare screens in order from closest to user, to most distant. This ensures webgl transparencies composite properly */
 
@@ -43,8 +252,6 @@ function hud1() {
 		var x2 = 0 + size / 2;
 		var y1 = 0 - size / 2;
 		var y2 = 0 + size / 2;
-
-		console.log( x1, y1, x2, y2 );
 
 	    var geometry = new THREE.Geometry();
 
@@ -119,6 +326,7 @@ function hud1() {
 		} )
 	);
 	ui.geometry.applyMatrix( new THREE.Matrix4().makeScale( -1, 1, 1 ) );
+	ui.position.set( 0, 0.1, 0 )
 	holder.add( ui );
 
 	var ui = new THREE.Mesh(
@@ -132,6 +340,7 @@ function hud1() {
 		} )
 	);
 	ui.geometry.applyMatrix( new THREE.Matrix4().makeScale( -1, 1, 1 ) );
+	ui.position.set( 0, 0.1, 0 )
 	holder.add( ui );
 
 
@@ -169,7 +378,7 @@ function hud1() {
 		//.start();
   	
 
-  	/* More UI layers */
+  /* More UI layers */
 
 	var ui = new THREE.Mesh(
 		new THREE.CylinderGeometry( radius * 1.5, radius * 1.5, height * 1.5, 60, 1, true ),
@@ -182,7 +391,7 @@ function hud1() {
 		} )
 	);
 	ui.geometry.applyMatrix( new THREE.Matrix4().makeScale( -1, 1, 1 ) );
-	ui.position.set( 0, -0.1, 0 )
+	ui.position.set( 0, 0.1, 0 )
 	holder.add( ui );
 
 	var ui = new THREE.Mesh(
@@ -196,12 +405,11 @@ function hud1() {
 		} )
 	);
 	ui.geometry.applyMatrix( new THREE.Matrix4().makeScale( -1, 1, 1 ) );
-	ui.position.set( 0, -0.1, 0 )
+	ui.position.set( 0, 0.1, 0 )
 	holder.add( ui );
 
 
 	cleanTransition();		
 	setupTransition( holder );
-
 
 }	
