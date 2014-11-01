@@ -230,7 +230,7 @@ function hud1() {
 
   }	
 
-  makeTutorial();
+  // makeTutorial();
 
 
 
@@ -322,11 +322,11 @@ function hud1() {
 		new THREE.MeshBasicMaterial( { 
 			transparent: true,
 			side: THREE.DoubleSide,
-			map: THREE.ImageUtils.loadTexture( 'images/hud1/screen-4-2.png' )
+			map: THREE.ImageUtils.loadTexture( 'images/hud1/screen-5-1.png' )
 		} )
 	);
 	ui.geometry.applyMatrix( new THREE.Matrix4().makeScale( -1, 1, 1 ) );
-	ui.position.set( 0, 0.1, 0 )
+	ui.position.set( 0, 0, 0 )
 	holder.add( ui );
 
 	var ui = new THREE.Mesh(
@@ -336,11 +336,11 @@ function hud1() {
 			side: THREE.DoubleSide, 
 			transparent: true, 
 			//opacity: 0.25
-			map: THREE.ImageUtils.loadTexture( 'images/hud1/screen-4-1.png' )
+			map: THREE.ImageUtils.loadTexture( 'images/hud1/screen-5-2.png' )
 		} )
 	);
 	ui.geometry.applyMatrix( new THREE.Matrix4().makeScale( -1, 1, 1 ) );
-	ui.position.set( 0, 0.1, 0 )
+	ui.position.set( 0, 0, 0 )
 	holder.add( ui );
 
 
@@ -360,7 +360,7 @@ function hud1() {
 		back.add( arrow );
 	});
 
-	holder.add( back );
+	//holder.add( back );
 
 	cube.scale.set( 2, 0.01, 1 );
 	new TWEEN.Tween( cube.scale )
@@ -381,13 +381,13 @@ function hud1() {
   /* More UI layers */
 
 	var ui = new THREE.Mesh(
-		new THREE.CylinderGeometry( radius * 1.5, radius * 1.5, height * 1.5, 60, 1, true ),
+		new THREE.CylinderGeometry( radius * 1.2, radius * 1.2, height * 1.2, 60, 1, true ),
 		new THREE.MeshBasicMaterial( { 
 			// color: 0x1796da, 
 			side: THREE.DoubleSide, 
 			transparent: true, 
-			opacity: 0.25,
-			map: THREE.ImageUtils.loadTexture( 'images/hud1/screen-4-3.png' )
+			opacity: 1,
+			map: THREE.ImageUtils.loadTexture( 'images/hud1/screen-5-3.png' )
 		} )
 	);
 	ui.geometry.applyMatrix( new THREE.Matrix4().makeScale( -1, 1, 1 ) );
@@ -406,7 +406,7 @@ function hud1() {
 	);
 	ui.geometry.applyMatrix( new THREE.Matrix4().makeScale( -1, 1, 1 ) );
 	ui.position.set( 0, 0.1, 0 )
-	holder.add( ui );
+	//holder.add( ui );
 
 
 	cleanTransition();		
