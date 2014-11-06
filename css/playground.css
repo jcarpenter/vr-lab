@@ -1,0 +1,132 @@
+html, body {
+  background-color: #f8bc4a;
+  background-image: url('../images/2560x1440-2.png');
+  color: white;
+  margin: 0;
+  padding: 0;
+  font-family: 'Fira Sans', sans-serif;
+  font-weight: 300;
+  font-style: normal;
+  font-size: 10pt;
+  width: 100%;
+  height: 100%; }
+
+#fullscreenButton {
+  display: inline-block;
+  border: 0.2em solid white;
+  padding: 0.4em 0.5em;
+  text-transform: uppercase;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  position: absolute;
+  bottom: 4em;
+  right: 4em; }
+
+.button:hover {
+  cursor: pointer; }
+
+#transitions {
+  position: absolute;
+  top: 4em;
+  right: 4em;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 1em;
+  font-weight: 500; }
+  #transitions li {
+    cursor: pointer;
+    border: 0.2em solid white;
+    padding: 0.2em 0.25em;
+    margin: 0.5em;
+    text-transform: uppercase; }
+  #transitions li:hover {
+    background-color: rgba(255, 255, 255, 0.25); }
+
+.sitetag {
+  text-transform: uppercase;
+  color: white;
+  letter-spacing: 0.05em;
+  margin: 0;
+  padding: 0;
+  width: 100%; }
+  .sitetag .author {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 1em;
+    font-weight: 400;
+    position: absolute;
+    top: 4em;
+    left: 4em; }
+  .sitetag .domain {
+    position: absolute;
+    bottom: 4em;
+    left: 4em; }
+    .sitetag .domain .title {
+      font-size: 1em;
+      font-weight: 600;
+      padding: 8em 0 0.2em; }
+    .sitetag .domain .url {
+      font-size: 1em;
+      font-weight: 500;
+      border: 0.2em solid white;
+      padding: 0.4em 0.5em;
+      display: inline-block; }
+    .sitetag .domain .tech {
+      font-size: 1em;
+      font-weight: 400;
+      padding: 0.5em 0 0; }
+
+/*
+// -------------------------------------
+// Fonts
+// -------------------------------------
+*/
+@font-face {
+  font-family: 'Fira Sans';
+  src: url('../fonts/woff/FiraSans-Bold.woff') format('woff'), url('../fonts/ttf/FiraSans-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'Fira Sans';
+  src: url('../fonts/woff/FiraSans-SemiBold.woff') format('woff'), url('../fonts/ttf/FiraSans-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'Fira Sans';
+  src: url('../fonts/woff/FiraSans-Regular.woff') format('woff'), url('../fonts/ttf/FiraSans-Regular.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'Fira Sans';
+  src: url('../fonts/woff/FiraSans-Light.woff') format('woff'), url('../fonts/ttf/FiraSans-Light.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'Fira Sans';
+  src: url('../fonts/woff/FiraSans-UltraLight.woff') format('woff'), url('../fonts/ttf/FiraSans-UltraLight.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'Fira Sans';
+  src: url('../fonts/woff/FiraSans-Hair.woff') format('woff'), url('../fonts/ttf/FiraSans-Hair.ttf') format('truetype');
+  font-weight: 200;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'Fira Sans';
+  src: url('../fonts/woff/FiraSans-Eight.woff') format('woff'), url('../fonts/ttf/FiraSans-Eight.ttf') format('truetype');
+  font-weight: 100;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'Fira Sans';
+  src: url('../fonts/woff/FiraSans-UltraLightItalic.woff') format('woff'), url('../fonts/ttf/FiraSans-UltraLightItalic.ttf') format('truetype');
+  font-weight: 300;
+  font-style: italic; }
