@@ -6,12 +6,19 @@ category.push( "Mockup" );
 
 
 var transList = [
-
+	
 	{
-		"label"			: "Mockups: HUD (Oct 28)",
-		"url"			: "js/scenes/hud1.js",
+		"label"			: "Transition: Hemisphere 4",
+		"url"				: "js/scenes/hemisphere4.js",
 		"category"		: 3,
-		"func"			: "hud1",
+		"func"			: "hemisphere4",
+		"active"		: true
+	},
+	{
+		"label"			: "Transition: Hemisphere 3",
+		"url"				: "js/scenes/hemisphere3.js",
+		"category"		: 3,
+		"func"			: "hemisphere3",
 		"active"		: true
 	},
 	{
@@ -26,6 +33,13 @@ var transList = [
 		"url"			: "js/scenes/hemisphere1.js",
 		"category"		: 3,
 		"func"			: "hemisphere1",
+		"active"		: true
+	},
+	{
+		"label"			: "Mockups: HUD (Oct 28)",
+		"url"			: "js/scenes/hud1.js",
+		"category"		: 3,
+		"func"			: "hud1",
 		"active"		: true
 	},
 	{
