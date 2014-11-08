@@ -15,7 +15,7 @@ function hemisphere4() {
 
 		new TWEEN.Tween( cap.material )
 			.to ( { opacity: 0 }, 1000 )
-			.delay( 2500v )
+			.delay( 2500 )
 			.easing( TWEEN.Easing.Cubic.InOut )
 			.onComplete( function(){
 				cap.visible = false;

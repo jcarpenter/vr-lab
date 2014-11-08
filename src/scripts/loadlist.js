@@ -10,7 +10,7 @@ var transList = [
 	{
 		"label"			: "Transition: Hemisphere 4",
 		"url"				: "js/scenes/hemisphere4.js",
-		"category"		: 3,
+		"category"	: 3,
 		"func"			: "hemisphere4",
 		"active"		: true
 	},
@@ -23,22 +23,22 @@ var transList = [
 	},
 	{
 		"label"			: "Transition: Hemisphere 2",
-		"url"			: "js/scenes/hemisphere2.js",
-		"category"		: 3,
+		"url"				: "js/scenes/hemisphere2.js",
+		"category"	: 3,
 		"func"			: "hemisphere2",
 		"active"		: true
 	},
 	{
 		"label"			: "Transition: Hemisphere 1",
-		"url"			: "js/scenes/hemisphere1.js",
-		"category"		: 3,
+		"url"				: "js/scenes/hemisphere1.js",
+		"category"	: 3,
 		"func"			: "hemisphere1",
 		"active"		: true
 	},
 	{
 		"label"			: "Mockups: HUD (Oct 28)",
-		"url"			: "js/scenes/hud1.js",
-		"category"		: 3,
+		"url"				: "js/scenes/hud1.js",
+		"category"	: 3,
 		"func"			: "hud1",
 		"active"		: true
 	},
