@@ -12,6 +12,15 @@ function mockups_360cm() {
 	var height = circumference / 4;
 
 	var mockups = [
+		'backwards-compatibility-9',
+		'backwards-compatibility-8',
+		'backwards-compatibility-7',
+		'backwards-compatibility-6',
+		'backwards-compatibility-5',
+		'backwards-compatibility-4',
+		'backwards-compatibility-3',
+		'backwards-compatibility-2',
+		'backwards-compatibility-1',
 		'firatech-home2',
 		'firatech-home1',
 		'sizetest1',

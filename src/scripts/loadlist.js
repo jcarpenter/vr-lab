@@ -8,6 +8,13 @@ category.push( "Mockup" );
 var transList = [
 	
 	{
+		"label"			: "Mockups: 360cm Cylinder",
+		"url"			: "js/scenes/mockups_360cm.js",
+		"category"		: 3,
+		"func"			: "mockups_360cm",
+		"active"		: true
+	},
+	{
 		"label"			: "Transition: Hemisphere 4",
 		"url"				: "js/scenes/hemisphere4.js",
 		"category"	: 3,
@@ -40,13 +47,6 @@ var transList = [
 		"url"				: "js/scenes/hud1.js",
 		"category"	: 3,
 		"func"			: "hud1",
-		"active"		: true
-	},
-	{
-		"label"			: "Mockups: 360cm Cylinder",
-		"url"			: "js/scenes/mockups_360cm.js",
-		"category"		: 3,
-		"func"			: "mockups_360cm",
 		"active"		: true
 	},
 	{
