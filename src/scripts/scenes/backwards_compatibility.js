@@ -1,4 +1,4 @@
-function mockups_360cm() {
+function backwards_compatibility() {
 
 	//create a mockup holder
 	//return it to setupTransition();
@@ -6,10 +6,10 @@ function mockups_360cm() {
 	//create plane
 	//create 
 
-		
-	var circumference = 360;
+	var circumference = 3.6;
 	var radius = circumference / 3.14 / 2;
 	var height = circumference / 4;
+	var imageDirectory = 'images/mockups/backwards_compatibility/';
 
 	var mockups = [
 		'backwards-compatibility-9',
@@ -21,9 +21,6 @@ function mockups_360cm() {
 		'backwards-compatibility-3',
 		'backwards-compatibility-2',
 		'backwards-compatibility-1',
-		'firatech-home2',
-		'firatech-home1',
-		'sizetest1',
 		'thunderbolt-display',
 		'grid',
 	]
@@ -37,25 +34,11 @@ function mockups_360cm() {
 		new THREE.MeshBasicMaterial( { 
 			transparent: true, 
 			side: THREE.DoubleSide,
-			map: THREE.ImageUtils.loadTexture( 'images/mockups_360cm/' + mockups[counter] + '.png' )
+			map: THREE.ImageUtils.loadTexture( imageDirectory + mockups[counter] + '.png' )
 		} )
 	);
 
 	mockup.scale.set( -1, 1, 1 );
-
-	grid = new THREE.Mesh(
-		new THREE.CylinderGeometry( radius + 1, radius + 1, height, 60, 1, true ),
-		new THREE.MeshBasicMaterial( { 
-			transparent: true, 
-			side: THREE.DoubleSide,
-			map: THREE.ImageUtils.loadTexture( 'images/mockups_360cm/grid.png' )
-		} )
-	);
-
-	grid.scale.set( -1, 1, 1 );
-
-	holder.position.set( 0, 0, 0 )
-	holder.add( grid );
 	holder.add( mockup );
 
 	function loadTex() {
@@ -64,7 +47,7 @@ function mockups_360cm() {
 			.to({ opacity: 0}, 300 )
 			.onComplete(function() {
 
-				mockup.material.map = THREE.ImageUtils.loadTexture( 'images/mockups_360cm/' + mockups[counter] + '.png', THREE.UVMapping, function() {
+				mockup.material.map = THREE.ImageUtils.loadTexture( imageDirectory + mockups[counter] + '.png', THREE.UVMapping, function() {
 
 					new TWEEN.Tween( mockup.material )
 						.to({ opacity: 1}, 300)

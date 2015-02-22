@@ -1,10 +1,160 @@
 var camera, scene, renderer;
-var vrEffect;
-var vrControls;
-var box, boxTween;
+var renderer, effect;
+var controls, vrcontrols;
+var manager;
+
+
+/*=========== GENERIC VR SCENE SETUP ===========*/
+
+function init() {
+
+	//setup three.js VR scene
+
+	renderer = new THREE.WebGLRenderer( { antialias: true } );
+  document.body.appendChild(renderer.domElement);
+
+  effect = new THREE.VREffect(renderer);
+  effect.setSize(window.innerWidth, window.innerHeight);
+
+	manager = new WebVRManager(effect, { hideButton: true });
+
+	scene = new THREE.Scene();
+
+	camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.01, 10000 );
+  
+  controls = new THREE.MouseControls(camera);
+
+  vrcontrols = new THREE.VRControls(camera);
+
+	var fullScreenButton = document.getElementById( 'fullscreenButton' );
+	fullScreenButton.onclick = function() {
+		fullscreen();
+	};
+
+  window.addEventListener('resize', onWindowResize);
+  document.addEventListener('dblclick', fullscreen);
+  window.addEventListener('keypress', onKey);
+
+
+  //setup visual elements
+
+	var light = new THREE.PointLight( 0xFFFFFF, 1.25 );
+	light.position.set( 0, 0, 0 );
+	scene.add( light );
+
+	//background sphere
+	var geometry = new THREE.SphereGeometry( 500, 60, 40 );
+	geometry.applyMatrix( new THREE.Matrix4().makeScale( -1, 1, 1 ) );
+	var material = new THREE.MeshBasicMaterial( {
+		map: THREE.ImageUtils.loadTexture( 'images/backgrounds/sechelt-2.png' )
+	} );
+	var mesh = new THREE.Mesh( geometry, material );
+	scene.add(mesh);
+
+	//load first demo
+	window[ demos[0].func ]();
+
+
+  animate();
+
+}
+
+function fullscreen(event) {
+  if (manager.isVRMode()) {
+    effect.setFullScreen(true);
+  } else {
+    console.log('not vr enabled');
+  }
+  
+};
+
+function onKey( event ) {
+
+
+	if (!(event.metaKey || event.altKey || event.ctrlKey)) {
+		event.preventDefault();
+	}
+
+	if ( event.charCode == 'f'.charCodeAt(0) ) {
+
+		//turn on fullscreen
+		//effect.setFullScreen( true );
+		fullscreen();
+
+	} else if ( event.charCode == 'z'.charCodeAt(0) ) {
+
+		//zero sensor
+		vrcontrols.zeroSensor();
+
+	} else if ( event.charCode == 'v'.charCodeAt(0) ) {
+
+		//load first function
+		window[ demos[0].func ]();
+
+	} else if ( event.keyCode == '38' ) {
+
+		//up arrow: load previous function
+		demoCounter --;
+
+		if( demoCounter < 0 ) { 
+			demoCounter = demos.length - 1;
+		}
+
+		window[ demos[demoCounter].func ]();
+
+	} else if ( event.keyCode == '40' ) {
+
+		//down arrow: load next function
+		demoCounter ++;
+
+		if( demoCounter == demos.length ) { 
+			demoCounter = 0;
+		}
+
+		window[ demos[demoCounter].func ]();
+
+	}
+
+	event.stopPropagation();
+
+}
+
+function onWindowResize() {
+
+	camera.aspect = window.innerWidth / window.innerHeight;
+	camera.updateProjectionMatrix();
+	effect.setSize( window.innerWidth, window.innerHeight );
+
+}
+
+function animate() {
+
+  if (manager.isVRMode()) {
+    effect.render(scene, camera);
+    vrcontrols.update();
+  } else {
+    renderer.render(scene, camera);
+    controls.update();
+  }
+
+	requestAnimationFrame( animate );
+	TWEEN.update();
+}
+
+window.addEventListener("load", init, false)
+
+
+
+
+
+
+
+/*=========== SETUP PROJECT-SPECIFIC ELEMENTS ===========*/
+
 var demoCounter = 0;
 
 
+//create link
 var Link = function( label, url, categories, func ) {
 
 	var link;
@@ -15,31 +165,21 @@ var Link = function( label, url, categories, func ) {
 
 	var li = document.createElement( "li" );
 	var txt = document.createTextNode( self.label );
-	// var a = document.createElement( "a" );
-	// a.appendChild( txt );
-	// a.href = self.url;
-	// a.target = "_blank"
 	li.appendChild( txt );
 	
-	var button = document.getElementById( "transitions" ).appendChild( li );
+	var button = document.getElementById( "links" ).appendChild( li );
 	button.addEventListener('click', function() { 
-
 		window[func]();
-	
-	} );
+	});
 
 	return link;
 
 }
 
+//go through demoList.js and for each that is active, import JS and create link
+for ( var i = 0; i < demos.length; i++ ) {
 
-for ( var i = 0; i < transList.length; i++ ) {
-
-	//go through transList
-	//for each active
-	//import it's js, and create a link
-
-	var t = transList[i];
+	var t = demos[i];
 
 	if ( t.active ) {
 	
@@ -52,10 +192,10 @@ for ( var i = 0; i < transList.length; i++ ) {
 		document.head.appendChild( script );
 
 		var link = new Link( 
-			transList[i].label,
-			transList[i].url, 
-			transList[i].category,
-			transList[i].func
+			demos[i].label,
+			demos[i].url, 
+			demos[i].category,
+			demos[i].func
 		);
 
 	}
@@ -63,104 +203,7 @@ for ( var i = 0; i < transList.length; i++ ) {
 }
 
 
-function init() {
 
-	container = document.getElementById( 'container' );
-
-	camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.1, 10000 );
-
-	scene = new THREE.Scene();
-
-	var light = new THREE.PointLight( 0xFFFFFF, 1.25 );
-
-	light.position.set( 0, 0, 0 );
-	scene.add( light );
-
-	//background sphere
-	var bgGeo = new THREE.SphereGeometry( 500, 60, 40 );
-	bgGeo.applyMatrix( new THREE.Matrix4().makeScale( -1, 1, 1 ) );
-
-	var bgMat = new THREE.MeshBasicMaterial( {
-		map: THREE.ImageUtils.loadTexture( 'images/sechelt-360-2.png' )
-	} );
-
-	var background = new THREE.Mesh( bgGeo, bgMat );
-	scene.add(background);
-
-	//renderer
-	renderer = new THREE.WebGLRenderer( { antialias: true, alpha: true } );
-	renderer.setSize( window.innerWidth, window.innerHeight );
-	renderer.sortObjects = false;
-	container.appendChild( renderer.domElement );
-
-	var fullScreenButton = document.getElementById( 'fullscreenButton' );
-	fullScreenButton.onclick = function() {
-		vrEffect.setFullScreen( true );
-	};
-
-	vrEffect = new THREE.VREffect(renderer, VREffectLoaded);
-	vrControls = new THREE.VRControls(camera);
-	function VREffectLoaded(error) {
-		if (error) {
-			//fullScreenButton.innerHTML = error;
-			//fullScreenButton.classList.add('error');
-		}
-	}
-
-	window.addEventListener( 'keypress', onkey, true);
-	window.addEventListener( 'resize', onWindowResize, false );
-}
-
-
-function onkey( event ) {
-
-
-	if (!(event.metaKey || event.altKey || event.ctrlKey)) {
-		event.preventDefault();
-	}
-
-	if ( event.charCode == 'f'.charCodeAt(0) ) {
-
-		//turn on fullscreen
-		vrEffect.setFullScreen( true );
-
-	} else if ( event.charCode == 'z'.charCodeAt(0) ) {
-
-		//zero sensor
-		vrControls.zeroSensor();
-
-	} else if ( event.charCode == 'v'.charCodeAt(0) ) {
-
-		//active first function
-		window[ transList[0].func ]();
-
-	} else if ( event.keyCode == '38' ) {
-
-		//up arrow: active previous function
-		demoCounter --;
-
-		if( demoCounter < 0 ) { 
-			demoCounter = transList.length - 1;
-		}
-
-		window[ transList[demoCounter].func ]();
-
-	} else if ( event.keyCode == '40' ) {
-
-		//down arrow: active next function
-		demoCounter ++;
-
-		if( demoCounter == transList.length ) { 
-			demoCounter = 0;
-		}
-
-		window[ transList[demoCounter].func ]();
-
-	}
-
-	event.stopPropagation();
-
-}
 
 
 var activeTransition; 
@@ -212,33 +255,3 @@ function explode( geometry, material ) {
 
 }
 
-
-function onWindowResize() {
-
-	camera.aspect = window.innerWidth / window.innerHeight;
-	camera.updateProjectionMatrix();
-	renderer.setSize( window.innerWidth, window.innerHeight );
-
-}
-
-function animate() {
-
-	requestAnimationFrame( animate );
-	render();
-	TWEEN.update();
-}
-	
-function render() {
-
-	vrControls.update();
-	vrEffect.render( scene, camera );
-	
-}
-
-function start() {
-
-	init();
-	animate();
-}
-
-window.addEventListener("load", start, false)

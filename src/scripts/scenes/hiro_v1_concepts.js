@@ -1,4 +1,4 @@
-function mockups_314cm() {
+function hiro_v1_concepts() {
 
 	//create a mockup holder
 	//return it to setupTransition();
@@ -6,19 +6,25 @@ function mockups_314cm() {
 	//create plane
 	//create 
 
-	var radius = 50;	
+	var radius = 0.57;	
 	var circumference = radius * 2 * 3.14;
 	var height = circumference / 4;
+	var imageDirectory = 'images/mockups/hiro_v1/';
 
 	var mockups = [
+		'montserrat-1',
+		'montserrat-2',
+		'montserrat-3',
+		'firatech-home2',
+		'firatech-home1',
 		'firatech2',
 		'firatech1',
+		'sizetest1',
 		'opensans4',
 		'opensans3',
 		'opensans2',
 		'opensans1',
 		'sizetest1',
-		'monsterat1',
 		'green1',
 		'green2',
 		'green3',
@@ -33,31 +39,19 @@ function mockups_314cm() {
 		'quickmenu3',
 		'quickmenu2',
 		'quickmenu1',
-		'testpattern2',
+		'testpattern2'
 	]
 
 	var counter = 0;
 
 	var holder = new THREE.Object3D();
 
-	/*
-	var mockup = new THREE.Mesh(
-		new THREE.PlaneGeometry( 220, 80, 1, 1 ),
-		new THREE.MeshBasicMaterial( { transparent: true, map: THREE.ImageUtils.loadTexture( 'images/mockups1/' + mockups[counter] + '.png' ) } )
-	)
-
-	mockup.material.side = THREE.DoubleSide;
-	mockup.material.opacity = 0;
-	
-	holder.position.set( 0, 0, 0 - radius);
-	*/
-
 	mockup = new THREE.Mesh(
 		new THREE.CylinderGeometry( radius, radius, height, 60, 1, true ),
 		new THREE.MeshBasicMaterial( { 
 			transparent: true, 
 			side: THREE.DoubleSide,
-			map: THREE.ImageUtils.loadTexture( 'images/mockups_314cm/' + mockups[counter] + '.png' )
+			map: THREE.ImageUtils.loadTexture( imageDirectory + mockups[counter] + '.png' )
 		} )
 	);
 
@@ -72,7 +66,7 @@ function mockups_314cm() {
 			.to({ opacity: 0}, 300 )
 			.onComplete(function() {
 
-				mockup.material.map = THREE.ImageUtils.loadTexture( 'images/mockups_314cm/' + mockups[counter] + '.png', THREE.UVMapping, function() {
+				mockup.material.map = THREE.ImageUtils.loadTexture( imageDirectory + mockups[counter] + '.png', THREE.UVMapping, function() {
 
 					new TWEEN.Tween( mockup.material )
 						.to({ opacity: 1}, 300)

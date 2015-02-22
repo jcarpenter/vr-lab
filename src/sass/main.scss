@@ -2,9 +2,10 @@ $red: rgba(224,69,64,1);
 $green: rgba(29,185,146,1);
 $yellow: rgba(248,188,74,1);
 
+$padding: 2rem;
+
 html, body {
 	background-color: $yellow;
-	//background-image: url('../images/2560x1440-2.png');
 	color: white;
 	margin: 0;
 	padding: 0;
@@ -24,7 +25,8 @@ html, body {
 	font-weight: 500;
 	letter-spacing: 0.1em;
 	position: absolute;
-	bottom: 4em; right: 4em;
+	bottom: $padding;
+	right: $padding;
 }
 
 #fullscreenButton:hover {
@@ -32,27 +34,37 @@ html, body {
 	background-color: rgba( 255, 255, 255, 0.25 )
 }
 
-#container {
+#container canvas {
+	display: block;
+  margin: auto;
+  padding: 0;
+  border : 0;
 }
 
-#transitions {
+#links {
 	position: absolute;
-	top: 4em; right: 4em;
+	top: $padding;
+	left: $padding;
 	list-style: none;
-	padding: 0; margin: 0;
+	padding: 0;
+	margin: 0;
 	font-size: 1em;
 	font-weight: 500;
 
 	li {
 		cursor: pointer;
-		border: 0.2em solid white;
-		padding: 0.2em 0.25em;
-		margin: 0.5em;
+		// border: 0.2em solid white;
+		background-color: rgba( 255, 255, 255, 1 );
+		color: black;
+		padding: 0.4em 0.4em;
+		margin: 0.15em;
 		text-transform: uppercase;
 	}
 
 	li:hover {
-		background-color: rgba( 255, 255, 255, 0.25 )
+		// background-color: rgba( 255, 255, 255, 0.25 )
+		background-color: rgba( 0, 0, 0, 1 );
+		color: white;
 	}
 }
 
@@ -65,19 +77,21 @@ html, body {
 	margin: 0; padding: 0;
 	width: 100%;
 
-	.author {
+	.instructions {
 		list-style: none;
 		padding: 0; margin: 0;
 		font-size: 1em;
 		font-weight: 400;
 		position: absolute;
-		top: 4em; left: 4em;
+		top: $padding;
+		left: $padding;
 	}
 
 	.domain {
 
 		position: absolute;
-		bottom: 4em; left: 4em;
+		bottom: $padding;
+		left: $padding;
 
 		.title {
 			font-size: 1em;

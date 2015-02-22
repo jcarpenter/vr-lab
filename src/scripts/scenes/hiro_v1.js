@@ -1,4 +1,4 @@
-function hud1() {
+function hiro_v1() {
 
 	//create cylinders for different layers
 	//create caps for top and bottom
@@ -13,9 +13,7 @@ function hud1() {
 		//	//	//	//
 	//////////////////	Cap
 
-
-
-	var circumference = 6.25;
+	var circumference = 3.6;
 	var radius = circumference / 3.14 / 2;
 	var height = circumference / 4;
 	var holder = new THREE.Object3D();
@@ -27,18 +25,6 @@ function hud1() {
 	// 0.75 	Inside of he
 	// 0.70		Inside of helmet elements
 	// 0.50		Foreground indicators & glowing lights
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 	/* Fragment function */
@@ -322,7 +308,7 @@ function hud1() {
 		new THREE.MeshBasicMaterial( { 
 			transparent: true,
 			side: THREE.DoubleSide,
-			map: THREE.ImageUtils.loadTexture( 'images/hud1/screen-5-1.png' )
+			map: THREE.ImageUtils.loadTexture( 'images/mockups/hiro_v1/montserrat-5-1.png' )
 		} )
 	);
 	ui.geometry.applyMatrix( new THREE.Matrix4().makeScale( -1, 1, 1 ) );
@@ -332,16 +318,28 @@ function hud1() {
 	var ui = new THREE.Mesh(
 		new THREE.CylinderGeometry( radius, radius, height, 60, 1, true ),
 		new THREE.MeshBasicMaterial( { 
-			//color: 0x1796da, 
 			side: THREE.DoubleSide, 
 			transparent: true, 
-			//opacity: 0.25
-			map: THREE.ImageUtils.loadTexture( 'images/hud1/screen-5-2.png' )
+			map: THREE.ImageUtils.loadTexture( 'images/mockups/hiro_v1/montserrat-5-2.png' )
 		} )
 	);
 	ui.geometry.applyMatrix( new THREE.Matrix4().makeScale( -1, 1, 1 ) );
 	ui.position.set( 0, 0, 0 )
 	holder.add( ui );
+
+	var ui = new THREE.Mesh(
+		new THREE.CylinderGeometry( radius * 1.2, radius * 1.2, height * 1.2, 60, 1, true ),
+		new THREE.MeshBasicMaterial( { 
+			side: THREE.DoubleSide, 
+			transparent: true, 
+			opacity: 1,
+			map: THREE.ImageUtils.loadTexture( 'images/mockups/hiro_v1/montserrat-5-3.png' )
+		} )
+	);
+	ui.geometry.applyMatrix( new THREE.Matrix4().makeScale( -1, 1, 1 ) );
+	ui.position.set( 0, 0.1, 0 )
+	holder.add( ui );
+
 
 
 	/* Back button */
@@ -362,6 +360,9 @@ function hud1() {
 
 	//holder.add( back );
 
+
+	/* Cube */
+
 	cube.scale.set( 2, 0.01, 1 );
 	new TWEEN.Tween( cube.scale )
 		.to( { x:2, y:1, z:1 }, 1000 )
@@ -377,37 +378,6 @@ function hud1() {
 		.to( { x:0, y:0, z:-1 }, 8000 )
 		//.start();
   	
-
-  /* More UI layers */
-
-	var ui = new THREE.Mesh(
-		new THREE.CylinderGeometry( radius * 1.2, radius * 1.2, height * 1.2, 60, 1, true ),
-		new THREE.MeshBasicMaterial( { 
-			// color: 0x1796da, 
-			side: THREE.DoubleSide, 
-			transparent: true, 
-			opacity: 1,
-			map: THREE.ImageUtils.loadTexture( 'images/hud1/screen-5-3.png' )
-		} )
-	);
-	ui.geometry.applyMatrix( new THREE.Matrix4().makeScale( -1, 1, 1 ) );
-	ui.position.set( 0, 0.1, 0 )
-	holder.add( ui );
-
-	var ui = new THREE.Mesh(
-		new THREE.CylinderGeometry( radius * 1.6, radius * 1.6, height / 1.25, 60, 1, true ),
-		new THREE.MeshBasicMaterial( { 
-			color: 0x1796da, 
-			//side: THREE.DoubleSide, 
-			transparent: true, 
-			opacity: 0.25
-			//map: THREE.ImageUtils.loadTexture( 'images/hud1/screen-4-1.png' )
-		} )
-	);
-	ui.geometry.applyMatrix( new THREE.Matrix4().makeScale( -1, 1, 1 ) );
-	ui.position.set( 0, 0.1, 0 )
-	//holder.add( ui );
-
 
 	cleanTransition();		
 	setupTransition( holder );

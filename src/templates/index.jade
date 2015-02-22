@@ -8,24 +8,25 @@ html(lang="en")
     link(rel='stylesheet', href='css/main.css')
   body
     .sitetag
-      ul.author
-        li Up arrow: previous
-        li Down arrow: next
+      //- ul.instructions
+      //-   li Up arrow: previous
+      //-   li Down arrow: next
       .domain
-        .title Transitions Playground
+        .title Transitions, Mockups and Other Experiments
         .url jcarpenter.github.io/vr-transitions/
-        .tech Three.js, Tween.js
+        .tech Made with Three.js & Tween.js
 
-    ul#transitions
+    ul#links
 
     #fullscreenButton Fullscreen
 
-    #container
-
     script(type="text/javascript", src="js/tween.min.js")
     script(type="text/javascript", src="js/three.min.js")
+    script(type="text/javascript", src="js/MouseControls.js")
     script(type="text/javascript", src="js/VREffect.js")
     script(type="text/javascript", src="js/VRControls.js")
+    script(type="text/javascript", src="js/webvr-polyfill.js")
+    script(type="text/javascript", src="js/webvr-manager.js")
 
-    script(type="text/javascript", src="js/loadlist.js")
+    script(type="text/javascript", src="js/demoList.js")
     script(type="text/javascript", src="js/main.js")
