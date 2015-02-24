@@ -1,6 +1,12 @@
 var demos = [
 
 	{
+		"label"			: "Logo Fragment",
+		"url"				: "js/scenes/logo_fragment.js",
+		"func"			: "logo_fragment",
+		"active"		: true
+	},
+	{
 		"label"			: "Cylinder Paths",
 		"url"				: "js/scenes/cylinderPaths.js",
 		"func"			: "cylinderPaths",
