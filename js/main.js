@@ -46,7 +46,8 @@ function init() {
 	var geometry = new THREE.SphereGeometry( 500, 60, 40 );
 	geometry.applyMatrix( new THREE.Matrix4().makeScale( -1, 1, 1 ) );
 	var material = new THREE.MeshBasicMaterial( {
-		map: THREE.ImageUtils.loadTexture( 'images/backgrounds/sechelt-2.png' )
+		//map: THREE.ImageUtils.loadTexture( 'images/backgrounds/sechelt-1.png' )
+		color: 0xCCCCCC
 	} );
 	var mesh = new THREE.Mesh( geometry, material );
 	scene.add(mesh);
