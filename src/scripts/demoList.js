@@ -1,6 +1,18 @@
 var demos = [
 
 	{
+		"label"			: "T: Fade",
+		"url"				: "js/scenes/fade_1.js",
+		"func"			: "fade_1",
+		"active"		: true
+	},
+	{
+		"label"			: "T: Reveal Item",
+		"url"				: "js/scenes/reveal_1.js",
+		"func"			: "reveal_1",
+		"active"		: true
+	},
+	{
 		"label"			: "Logo Fragment",
 		"url"				: "js/scenes/logo_fragment.js",
 		"func"			: "logo_fragment",
