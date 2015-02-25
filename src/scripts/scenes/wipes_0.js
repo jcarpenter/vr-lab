@@ -1,4 +1,4 @@
-function reveal_1() {
+function wipes_0() {
 
 	// Code to reveal an item by animating it's texture map.
 

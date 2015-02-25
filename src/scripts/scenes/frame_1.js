@@ -12,7 +12,7 @@ function frame_1() {
 
 	//create holder
 	var holder = new THREE.Object3D();
-	scene.fog = new THREE.Fog( 0x26324F, 1, 50 );
+	// scene.fog = new THREE.Fog( 0x26324F, 1, 50 );
 
 
 
