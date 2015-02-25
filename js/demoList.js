@@ -1,21 +1,27 @@
 var demos = [
 
 	{
-		"label"			: "Frame",
+		"label"			: "Closing your eyes",
+		"url"				: "js/scenes/wipes_2.js",
+		"func"			: "wipes_2",
+		"active"		: true
+	},
+	{
+		"label"			: "Wipe reveal 2",
+		"url"				: "js/scenes/wipes_1.js",
+		"func"			: "wipes_1",
+		"active"		: true
+	},
+	{
+		"label"			: "Wipe reveal 1",
+		"url"				: "js/scenes/wipes_0.js",
+		"func"			: "wipes_0",
+		"active"		: true
+	},
+	{
+		"label"			: "Frames",
 		"url"				: "js/scenes/frame_1.js",
 		"func"			: "frame_1",
-		"active"		: true
-	},
-	{
-		"label"			: "T: Fade",
-		"url"				: "js/scenes/fade_1.js",
-		"func"			: "fade_1",
-		"active"		: true
-	},
-	{
-		"label"			: "T: Reveal Item",
-		"url"				: "js/scenes/reveal_1.js",
-		"func"			: "reveal_1",
 		"active"		: true
 	},
 	{
