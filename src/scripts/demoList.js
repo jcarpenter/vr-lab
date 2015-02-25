@@ -1,6 +1,12 @@
 var demos = [
 
 	{
+		"label"			: "Site Load",
+		"url"				: "js/scenes/siteload_1.js",
+		"func"			: "siteload_1",
+		"active"		: true
+	},
+	{
 		"label"			: "Closing your eyes",
 		"url"				: "js/scenes/wipes_2.js",
 		"func"			: "wipes_2",
