@@ -1,6 +1,12 @@
 var demos = [
 
 	{
+		"label"			: "Frame",
+		"url"				: "js/scenes/frame_1.js",
+		"func"			: "frame_1",
+		"active"		: true
+	},
+	{
 		"label"			: "T: Fade",
 		"url"				: "js/scenes/fade_1.js",
 		"func"			: "fade_1",
