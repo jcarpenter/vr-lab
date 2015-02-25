@@ -19,7 +19,6 @@ function init() {
 	manager = new WebVRManager(effect, { hideButton: true });
 
 	scene = new THREE.Scene();
-
 	camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.01, 10000 );
   
   controls = new THREE.MouseControls(camera);
