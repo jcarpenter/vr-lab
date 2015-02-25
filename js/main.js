@@ -19,7 +19,8 @@ function init() {
 	manager = new WebVRManager(effect, { hideButton: true });
 
 	scene = new THREE.Scene();
-
+	//fog
+	scene.fog = new THREE.Fog( 0x26324F, 1, 50 );
 	camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.01, 10000 );
   
   controls = new THREE.MouseControls(camera);
