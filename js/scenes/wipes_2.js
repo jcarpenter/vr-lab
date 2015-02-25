@@ -1,6 +1,6 @@
 function wipes_2() {
 	
-	// Alpha wipe reveals meshes
+	// Alpha wipes used to create "close your eyes" transition effect
 	
 	var holder = new THREE.Object3D();
 
