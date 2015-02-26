@@ -1,5 +1,6 @@
 function fragment5() {
 
+	//create holder
 	var geometry = new THREE.IcosahedronGeometry( 10, 3 );
 	var material = new THREE.MeshBasicMaterial( { color: 0xffffff, wireframe: false, transparent: true } );
 	material.side = THREE.DoubleSide;

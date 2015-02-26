@@ -1,36 +1,6 @@
 var demos = [
 
 	{
-		"label"			: "Site Load",
-		"url"				: "js/scenes/siteload_1.js",
-		"func"			: "siteload_1",
-		"active"		: true
-	},
-	{
-		"label"			: "Closing your eyes",
-		"url"				: "js/scenes/wipes_2.js",
-		"func"			: "wipes_2",
-		"active"		: true
-	},
-	{
-		"label"			: "Wipe reveal 2",
-		"url"				: "js/scenes/wipes_1.js",
-		"func"			: "wipes_1",
-		"active"		: true
-	},
-	{
-		"label"			: "Wipe reveal 1",
-		"url"				: "js/scenes/wipes_0.js",
-		"func"			: "wipes_0",
-		"active"		: true
-	},
-	{
-		"label"			: "Frames",
-		"url"				: "js/scenes/frame_1.js",
-		"func"			: "frame_1",
-		"active"		: true
-	},
-	{
 		"label"			: "Logo Fragment",
 		"url"				: "js/scenes/logo_fragment.js",
 		"func"			: "logo_fragment",

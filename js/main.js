@@ -19,6 +19,7 @@ function init() {
 	manager = new WebVRManager(effect, { hideButton: true });
 
 	scene = new THREE.Scene();
+
 	camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.01, 10000 );
   
   controls = new THREE.MouseControls(camera);
@@ -45,8 +46,7 @@ function init() {
 	var geometry = new THREE.SphereGeometry( 500, 60, 40 );
 	geometry.applyMatrix( new THREE.Matrix4().makeScale( -1, 1, 1 ) );
 	var material = new THREE.MeshBasicMaterial( {
-		//map: THREE.ImageUtils.loadTexture( 'images/backgrounds/sechelt-1.png' )
-		color: 0xCCCCCC
+		map: THREE.ImageUtils.loadTexture( 'images/backgrounds/sechelt-2.png' )
 	} );
 	var mesh = new THREE.Mesh( geometry, material );
 	scene.add(mesh);
