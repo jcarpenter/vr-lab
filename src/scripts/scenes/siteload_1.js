@@ -12,7 +12,7 @@ function siteload_1() {
 	// Gray background
 
 	var geometry = new THREE.SphereGeometry( 200, 20, 20 );
-	var material = new THREE.MeshBasicMaterial( { color: 0x131313, transparent: true, opacity: 0, side: THREE.DoubleSide } );
+	var material = new THREE.MeshBasicMaterial( { wireframe: false, color: 0x000000, transparent: true, opacity: 0, side: THREE.DoubleSide } );
 	var mesh = new THREE.Mesh( geometry, material );
 	holder.add( mesh );
 
@@ -25,9 +25,6 @@ function siteload_1() {
 
 
 
-
-
-
 	//Dome reveal
 
 	var geometry = new THREE.SphereGeometry( 199, 20, 20, 0, 360 * Math.PI/180, 0, 90 * Math.PI/180 );
@@ -36,10 +33,10 @@ function siteload_1() {
 		// map: colorMap,
 		side: THREE.DoubleSide,
 		transparent: true,
-		opacity: 1,
+		opacity: 1
 	});
 
-	// material.alphaTest = 0.5;
+	// //material.alphaTest = 0.5;
 	
 	new THREE.TextureLoader().load(
     "images/gradient-2.png",
@@ -135,26 +132,28 @@ function siteload_1() {
 	var thetaStart = 135 * Math.PI/180;
 	var thetaLength = 90 * Math.PI/180;
 
-	var geometry = new THREE.CylinderGeometry( radiusTop, radiusBottom, height, radiusSegments, heightSegments, openEnded, thetaStart, thetaLength );
-	var material = new THREE.MeshBasicMaterial( { 
+	var cyl = new THREE.CylinderGeometry( radiusTop, radiusBottom, height, radiusSegments, heightSegments, openEnded, thetaStart, thetaLength );
+	var mat = new THREE.MeshBasicMaterial( { 
 		color: 0xDB70A9, 
-		side: THREE.DoubleSide, 
-		depthTest: false, 
-		depthWrite: false, 
+		side: THREE.BackSide, 
 		transparent: true, 
-		opacity: 1 
+		opacity: 0.5
 	} );
-	var mesh = new THREE.Mesh( geometry, material );
+	var mesh = new THREE.Mesh( cyl, mat );
+
+
 
 	new THREE.TextureLoader().load(
     "images/alpha-2pxblack-leftright.png",
+    // "images/149.png",
     function( tex )
     {
       tex.wrapS = tex.wrapT = THREE.ClampToEdgeWrapping;
       tex.repeat.set( 1, 1 );
       tex.offset.set( -1, 0 );
       tex.magFilter = tex.minFilter = THREE.NearestFilter;
-      mesh.material.alphaMap = tex;
+      
+      mesh.material.map = tex;
       mesh.material.needsUpdate = true;
 
     	new TWEEN.Tween( tex.offset )
@@ -164,16 +163,18 @@ function siteload_1() {
 
     } );
 
+  
 	mesh.scale.set( 1, 0.01, 1 );
 	mesh.position.set( 0, 0.2, 0 );
 	holder.add( mesh );
 
-	var mesh2 = new THREE.Mesh( geometry, material );
+  var mesh2 = new THREE.Mesh( cyl, mat );
 	mesh2.scale.set( 1, 0.04, 1 );
-	mesh2.position.set( 0, 0, 0 );
-	holder.add( mesh2 );
+	mesh2.position.set( 0, 0.1, 0 );
+	
+  holder.add( mesh2 );
 
-	var mesh3 = new THREE.Mesh( geometry, material );
+	var mesh3 = new THREE.Mesh( cyl, mat );
 	mesh3.scale.set( 1, 0.54, 1 );
 	mesh3.position.set( 0, -0.2, 0 );
 	holder.add( mesh3 );

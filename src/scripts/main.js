@@ -11,6 +11,8 @@ function init() {
 	//setup three.js VR scene
 
 	renderer = new THREE.WebGLRenderer( { antialias: true } );
+	renderer.sortObjects = false;
+  renderer.setClearColor( 0x000000, 0 );
   document.body.appendChild(renderer.domElement);
 
   effect = new THREE.VREffect(renderer);
