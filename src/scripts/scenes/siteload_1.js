@@ -1,10 +1,33 @@
 function siteload_1() {
 	
-	// Alpha wipes used to create "close your eyes" transition effect
+	// Sequence:
+
+	// "Eyes close" transition (two elements animating)
+	// HUD elements animate in
+	// Once loading is complet, animate out HUD and open eyes
+
 	
+
+
+
+	/*=============== SETUP SCENE ===============*/
+
 	var holder = new THREE.Object3D();
 
+	// Stand-in for current site
+	var geometry = new THREE.SphereGeometry( 200, 20, 20 );
+	var material = new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'images/backgrounds/sechelt-1.png' ), side: THREE.BackSide } );
+	var mesh = new THREE.Mesh( geometry, material );
+	holder.add( mesh );
 
+
+
+
+
+
+
+
+	/*=============== SETUP CREATOR & UTILITY FUNCTIONS ===============*/
 
 	//random interger utility function
 	//returns a random integer between min (included) and max (excluded)
@@ -17,125 +40,14 @@ function siteload_1() {
 	  return Math.random() * (max - min) + min;
 	}
 
-	// Stand-in for current site
-
-	var geometry = new THREE.SphereGeometry( 200, 20, 20 );
-	var material = new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'images/backgrounds/sechelt-1.png' ), side: THREE.BackSide } );
-	var mesh = new THREE.Mesh( geometry, material );
-	holder.add( mesh );
-
-
-	// Gray background
-
-	var geometry = new THREE.SphereGeometry( 200, 20, 20 );
-	var material = new THREE.MeshBasicMaterial( { wireframe: false, color: 0x0E131E, transparent: true, opacity: 0, side: THREE.DoubleSide } );
-	var mesh = new THREE.Mesh( geometry, material );
-	holder.add( mesh );
-
-	new TWEEN.Tween( mesh.material )
-		.to( { opacity: 1 }, 1500 )
-		.easing( TWEEN.Easing.Sinusoidal.Out )
-		.start();
-
-	//Note: When you change any property of a material or texture after it has been used by renderer, you need to set `tex.needsUpdate = true` (where 'tex' is variable name for the material or texture).
-
-
-
-	//Dome reveal
-
-	var geometry = new THREE.SphereGeometry( 199, 20, 20, 0, 360 * Math.PI/180, 0, 90 * Math.PI/180 );
-	var material = new THREE.MeshBasicMaterial({
-		// color: 0x1C1C1C,
-		// map: colorMap,
-		side: THREE.DoubleSide,
-		transparent: true,
-		opacity: 1
-	});
-
-	// //material.alphaTest = 0.5;
-	
-	new THREE.TextureLoader().load(
-    "images/gradient-2.png",
-    function( texture1 )
-    {
-  	  texture1.wrapS = texture1.wrapT = THREE.ClampToEdgeWrapping;
-      texture1.repeat.set( 1, 1 );
-      texture1.offset.set( 0, -1 );
-      material.map = texture1;
-      material.needsUpdate = true;
-
-			var mesh1 = new THREE.Mesh( geometry, material );
-			mesh1.position.set( 0, 0, 0 )
-			holder.add( mesh1 );
-
-			var mesh2 = new THREE.Mesh( geometry, material );
-			mesh2.position.set( 0, 0, 0 )
-			mesh2.rotation.set( 0, 0, 1*Math.PI)
-			holder.add( mesh2 );
-
-      new TWEEN.Tween( texture1.offset )
-				.to( { y: 0 }, 800 )
-				.easing( TWEEN.Easing.Sinusoidal.Out )
-				.start();
-
-    });
-
-	new THREE.TextureLoader().load(
-    "images/alpha-2pxblack-topbottom.png",
-    function( texture2 )
-    {
-      // texture2.wrapS = texture2.wrapT = THREE.MirroredRepeatWrapping;
-      // texture2.repeat.set( 1, 1 );
-      // texture2.offset.set( 0, 0 );
-      material.alphaMap = texture2;
-      material.needsUpdate = true;
-
-    	// new TWEEN.Tween( alpha.offset )
-			// 	.to( { y: 0.5 }, 2000 )
-			// 	.easing( TWEEN.Easing.Sinusoidal.Out )
-			// 	.start();
-
-    } );
-
-
-
-
-	//load alternative frame model (was made in C4D)
-	// var loader = new THREE.ObjectLoader();
-	// loader.load( 'models/frame_01.json', function ( object ) { 
-
-	// 	object.scale.set( 0.005, 0.005, 0.005 );
-	// 	object.position.set( 0, -0.5, -2 );
-	// 	holder.add( object );
-
-	// 	for( i = 0; i < object.children.length; i++ ){
-			
-	// 		var edge = object.children[i].children[0];
-			
-	// 		edge.material = new THREE.MeshBasicMaterial( { color: 0xFFFFFF, transparent: true, opacity: 1, fog: false } );
-
-	// 		edge.scale.set( 1, 1, 0 );
-	// 		new TWEEN.Tween( edge.scale )
-	// 			.to( { z: 1 }, 1000 + i * 100 )
-	// 			// .delay( i * 50 )
-	// 			.easing( TWEEN.Easing.Cubic.Out )
-	// 			.start();
-
-	// 	}
-
-	// });
-
-
-
 	//shuffle utility function: shuffles array values
 	function shuffle(o){ //v1.0
 	    for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
 	    return o;
 	};
 
-
-
 	//make frame
+	//makes "frame" 3D boxes with a wireframe aesthetic
 	function makeFrame( width, height, depth, renderWidth, renderHeight, renderDepth, thickness, color, opacity ){
 
 		var 	w = width,
@@ -225,15 +137,12 @@ function siteload_1() {
 
 		}
 
-		// group.position.set( 0d/2 )
-		// frame.add( group );
 		return group;
-
 	}
 
 
-
 	//make border
+	//makes flat cylindrical "outline" planes that face the user
 	function makeBorder( radius, height, thickness, thetaStart, thetaLength, y, color, opacity ) {
 
 		var sideGeometry = new THREE.PlaneGeometry( thickness, height+thickness, 1, 1 );
@@ -265,59 +174,57 @@ function siteload_1() {
 		border.add( leftPivot );
 		border.add( rightPivot );
 
-		// new TWEEN.Tween( border.rotation )
-		// 	.to( { y:2 }, 2000 )
-		// 	.start();
-
 		/*
 
-		var lPR = leftPivot.rotation.y;
-		leftPivot.rotation.set( 0, lPR - 30*Math.PI/180 , 0 );
-		left.scale.setY( 0 );
-		new TWEEN.Tween( left.scale )
-			.to( { y:1 }, 250 )
-			.easing( TWEEN.Easing.Sinusoidal.Out )
-			.onComplete( function(){
-				
-				new TWEEN.Tween( leftPivot.rotation )
-					.to( { y:lPR }, 500 )
-					.easing( TWEEN.Easing.Sinusoidal.Out )
-					.start();
+			//Old intro animation...
 
-			} )
-			.start();
+			var lPR = leftPivot.rotation.y;
+			leftPivot.rotation.set( 0, lPR - 30*Math.PI/180 , 0 );
+			left.scale.setY( 0 );
+			new TWEEN.Tween( left.scale )
+				.to( { y:1 }, 250 )
+				.easing( TWEEN.Easing.Sinusoidal.Out )
+				.onComplete( function(){
+					
+					new TWEEN.Tween( leftPivot.rotation )
+						.to( { y:lPR }, 500 )
+						.easing( TWEEN.Easing.Sinusoidal.Out )
+						.start();
+
+				} )
+				.start();
 
 
-		var rPR = rightPivot.rotation.y;
-		rightPivot.rotation.set( 0, rPR + 30*Math.PI/180 , 0 );
-		right.scale.setY( 0 );
-		new TWEEN.Tween( right.scale )
-			.to( { y:1 }, 250 )
-			.easing( TWEEN.Easing.Sinusoidal.Out )
-			.onComplete( function(){
-				
-				new TWEEN.Tween( rightPivot.rotation )
-					.to( { y:rPR }, 500 )
-					.easing( TWEEN.Easing.Sinusoidal.Out )
-					.start();
+			var rPR = rightPivot.rotation.y;
+			rightPivot.rotation.set( 0, rPR + 30*Math.PI/180 , 0 );
+			right.scale.setY( 0 );
+			new TWEEN.Tween( right.scale )
+				.to( { y:1 }, 250 )
+				.easing( TWEEN.Easing.Sinusoidal.Out )
+				.onComplete( function(){
+					
+					new TWEEN.Tween( rightPivot.rotation )
+						.to( { y:rPR }, 500 )
+						.easing( TWEEN.Easing.Sinusoidal.Out )
+						.start();
 
-			} )
+				} )
 
-			.start();
+				.start();
 
-		var tP = top.position.y;
-		top.position.setY( 0 );
-		new TWEEN.Tween( top.position )
-			.to( { y:tP }, 500 )
-			.easing( TWEEN.Easing.Sinusoidal.Out )
-			.start();
+			var tP = top.position.y;
+			top.position.setY( 0 );
+			new TWEEN.Tween( top.position )
+				.to( { y:tP }, 500 )
+				.easing( TWEEN.Easing.Sinusoidal.Out )
+				.start();
 
-		var bP = bottom.position.y;
-		bottom.position.setY( 0 );
-		new TWEEN.Tween( bottom.position )
-			.to( { y:bP }, 500 )
-			.easing( TWEEN.Easing.Sinusoidal.Out )
-			.start();
+			var bP = bottom.position.y;
+			bottom.position.setY( 0 );
+			new TWEEN.Tween( bottom.position )
+				.to( { y:bP }, 500 )
+				.easing( TWEEN.Easing.Sinusoidal.Out )
+				.start(); 
 
 		*/
 
@@ -325,13 +232,9 @@ function siteload_1() {
 
 	}
 
-	var b = makeBorder( 3, 1.5, 0.01, 270, 180, 0, 0xFFFFFF, 0.2 );
-	b.position.set( 0, 0, 0 );
-	holder.add( b );
-
-
 
 	// make bands
+	// makes flat cylindrical planes that face the user
 	function makeBand( radius, height, thetaStart, thetaLength, y, color, opacity ) {
 
 		var radiusSegments = thetaLength / 2;
@@ -349,16 +252,13 @@ function siteload_1() {
 		} );
 		var mesh = new THREE.Mesh( geometry, material );
 		mesh.position.setY( y );
-		
-		// mesh.scale.y = 0;
-		// new TWEEN.Tween( mesh.scale )
-		// 	.to( { y: 1 }, 1000 )
-		// 	.easing( TWEEN.Easing.Sinusoidal.Out )
-		// 	.start();
 
 		return mesh;
 	}
 
+
+	//make mask
+	//makes masks for objects (should probably deprecate this and implement in a better way)
 	function makeMask( object ) {
 
 		new THREE.TextureLoader().load(
@@ -387,18 +287,67 @@ function siteload_1() {
 
 
 
+	/*=============== SETUP LAYOUT ===============*/
+
+	// Create sphere that darkens the background
+
+	var darken_geometry = new THREE.SphereGeometry( 200, 20, 20 );
+	var darken_material = new THREE.MeshBasicMaterial( { wireframe: false, color: 0x0E131E, transparent: true, opacity: 0, side: THREE.DoubleSide } );
+	var darken = new THREE.Mesh( darken_geometry, darken_material );
+	holder.add( darken );
 
 
+	// Create "eyelids" that darken the background
+
+	var eyelid_geometry = new THREE.SphereGeometry( 199, 20, 20, 0, 360 * Math.PI/180, 0, 90 * Math.PI/180 );
+	var eyelid_material = new THREE.MeshBasicMaterial({ side: THREE.DoubleSide, transparent: true,	opacity: 1 });
+	var eyelid_top = new THREE.Mesh( eyelid_geometry, eyelid_material );
+	var eyelid_bottom = new THREE.Mesh( eyelid_geometry, eyelid_material );
+	eyelid_bottom.rotation.set( 0, 0, 1*Math.PI)
+	
+	holder.add( eyelid_top );
+	holder.add( eyelid_bottom );
+
+	var eyelid_map;
+	new THREE.TextureLoader().load(
+    "images/siteload/eyelid-gradient.png",
+    function( tex )
+    {
+
+    	eyelid_map = tex;
+
+  	  eyelid_map.wrapS = eyelid_map.wrapT = THREE.ClampToEdgeWrapping;
+      eyelid_map.repeat.set( 1, 1 );
+      eyelid_map.offset.set( 0, -1 );
+      eyelid_material.map = eyelid_map;
+      eyelid_material.needsUpdate = true;
+
+      animateIn(); //once loading is complete, call the animateIn() function.
+
+    });
+
+	var eyelid_alphaMap;
+	new THREE.TextureLoader().load(
+    "images/siteload/alpha-2pxblack-topbottom.png",
+    function( tex )
+    {
+    	eyelid_alphaMap = tex;
+      eyelid_material.alphaMap = eyelid_alphaMap;
+      eyelid_material.needsUpdate = true;
+    });
+
+	var b = makeBorder( 3, 1.5, 0.01, 270, 180, 0, 0xFFFFFF, 0.2 );
+	b.position.set( 0, 0, 0 );
+	holder.add( b );
 
 
-	/* ==================== MAKE LAYOUT ==================== */
-
+	// setup size variables that will be used for most HUD elements
 
 	var radius = 0.6;
 	var leftEdge = 215;
 
 
-	//make loading brackets
+	// make loading animation frames
 
 	var b1Pivot = new THREE.Object3D();
 	var b1 = makeFrame( 0.1, 0.1, 0.1, false, false, true, 0.0015 );
@@ -417,122 +366,87 @@ function siteload_1() {
 	holder.add( b2Pivot );
 
 
-	//make bands
+	// make one band for each creator
 
 	var creator1 = makeBand( radius, 0.025, leftEdge, 20, 0.2, 0xFFFFFF, 0.25 );
-	// makeMask( band1 );
 	holder.add( creator1 );
 
-	var loading = makeBand( radius, 0.0075, leftEdge, 30, 0, null, 0.5 );
-	loading.material.map = THREE.ImageUtils.loadTexture( 'images/diagonals-4-white.png', THREE.UVMapping, function( tex )
+
+	// make progress bar
+
+	var progress = makeBand( radius, 0.0075, leftEdge, 30, 0, null, 0.5 );
+	progress.material.map = THREE.ImageUtils.loadTexture( 'images/siteload/progressbar-1.png', THREE.UVMapping, function( tex )
 		{ 
 	      tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
 	      tex.repeat.set( 5, 0.1 );
 	      tex.offset.set( 0, 0 );
 		});
-	holder.add( loading );
+	holder.add( progress );
+
+	
+	// make site name holder
 
 	var name = makeBand( radius, 0.15, leftEdge, 50, -0.1, 0xFFFFFF, 1 );
-	// makeMask( band1 );
 	holder.add( name );
 
-	//make site icon
-	var framePivot = new THREE.Object3D();
-	var frame = makeFrame( 0.15, 0.15, 0.15, true, true, true, 0.0015 );
-	// shuffle( frame.children );
-	frame.position.set( 0, -0.15, 0-radius );
-	framePivot.add( frame );
-	framePivot.rotation.set( 0, -30*Math.PI/180, 0 );
-	holder.add( framePivot );
+
+	// make loading indicator frame
+
+	var loading_pivot = new THREE.Object3D();
+	var loading = makeFrame( 0.15, 0.15, 0.15, true, true, true, 0.0015 );
+	// shuffle( loading.children ); // shuffles order in which the frame pieces draw in
+	loading.position.set( 0, -0.15, 0-radius );
+	loading_pivot.add( loading );
+	loading_pivot.rotation.set( 0, -30*Math.PI/180, 0 );
+	holder.add( loading_pivot );
+
+
+	// make loading indicator sphere
+
+	var geometry = new THREE.SphereGeometry( 0.065, 20, 10 );
+	var material = new THREE.MeshBasicMaterial( { color: 0xFFFFFF, wireframe: true } );
+	var loading_indicator = new THREE.Mesh( geometry, material );
+	loading.add( loading_indicator );
 
 
 
 
 
 
-	//make lots of bands
-	// for( var i = 0; i < 10; i++ ){
+	/*=============== ANIMATE IN ===============*/
 
-	// 	var start = getRandomInt( 160, 260 );
-	// 	var length = getRandomArbitrary( 20, 50 );
-	// 	var y = getRandomArbitrary( -0.5, 0.5 );
+	function animateIn(){
 
-	// 	var band = makeBand( 0.5, 0.05, start, 100, y, 0xFFFFFF, 1 );
-	// 	makeMask( band );
-	// 	holder.add( band );
+		// TODO:
+		// Add: function that animates elements endlessly until stopped.
+		// darken background and close eyelids
+		// animate in elements
+		// start loop offset of progress bar map
+		// start loop rotation of loading_indicator
+		// start video
 
-	// }
+	  new TWEEN.Tween( eyelid_map.offset )
+			.to( { y: 0 }, 800 )
+			.easing( TWEEN.Easing.Sinusoidal.Out )
+			.start();
 
-
-	// function reveal( mesh, direction ){
-
-	// 	mesh.material
-
-	// }
-
-	// reveal( band1, leftright )
-
-
-	// Alpha wipe reveals meshes
-
-	/*
-	var radiusTop = radiusBottom = 0.5;
-	var height = 0.505; // Height of the cylinder. Default is 100.
-	var radiusSegments = 60; // Number of segmented faces around the circumference of the cylinder. Default is 8
-	var heightSegments = 1; // Number of rows of faces along the height of the cylinder. Default is 1.
-	var openEnded = true; // A Boolean indicating whether the ends of the cylinder are open or capped. Default is false, meaning capped.
-	var thetaStart = 135 * Math.PI/180;
-	var thetaLength = 90 * Math.PI/180;
-
-	var geo1 = new THREE.CylinderGeometry( radiusTop, radiusBottom, height, radiusSegments, heightSegments, openEnded, thetaStart, thetaLength );
-	var mat1 = new THREE.MeshBasicMaterial( { 
-		color: 0xFFFFFF, 
-		side: THREE.BackSide, 
-		transparent: true, 
-	} );
-	var mesh = new THREE.Mesh( cyl, mat1 );
-	*/
-
-	/*
+		//Reveal sphere that darkens the background
+		new TWEEN.Tween( darken.material )
+			.to( { opacity: 1 }, 1500 )
+			.easing( TWEEN.Easing.Sinusoidal.Out )
+			.start();
 
 
-	new THREE.TextureLoader().load(
-    "images/alpha-2pxblack-leftright.png",
-    function( tex )
-    {
-      tex.wrapS = tex.wrapT = THREE.ClampToEdgeWrapping;
-      tex.repeat.set( 1, 1 );
-      tex.offset.set( -1, 0 );
-      tex.magFilter = tex.minFilter = THREE.NearestFilter;
-      
-      mesh.material.map = tex;
-      mesh.material.needsUpdate = true;
+	}
 
-    	new TWEEN.Tween( tex.offset )
-				.to( { x: 0 }, 1000 )
-				.easing( TWEEN.Easing.Sinusoidal.Out )
-				.start();
+	function animateOut(){
 
-    } );
+		// TODO:
+		// stop looping animations (progress bar and loading indicator)
+		// play outro animations for all elements
+		// open eyelids
 
-  
-	mesh.scale.set( 1, 0.01, 1 );
-	mesh.position.set( 0, 0.2, 0 );
-	holder.add( mesh );
-
-  var mesh2 = new THREE.Mesh( cyl, mat1 );
-	mesh2.scale.set( 1, 0.04, 1 );
-	mesh2.position.set( 0, 0.1, 0 );
-	
-  holder.add( mesh2 );
-
-	var mesh3 = new THREE.Mesh( cyl, mat1 );
-	mesh3.scale.set( 1, 0.54, 1 );
-	mesh3.position.set( 0, -0.2, 0 );
-	holder.add( mesh3 );
-
-	*/
-
+	}
 
 
 	cleanTransition();		
