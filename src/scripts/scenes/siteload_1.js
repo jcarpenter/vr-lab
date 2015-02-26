@@ -244,7 +244,6 @@ function siteload_1() {
 			opacity: opacity
 		} );
 
-		var border = new THREE.Object3D();
 		var top = makeBand( radius, thickness, thetaStart, thetaLength, 0+height/2, color, opacity );
 		var bottom = makeBand( radius, thickness, thetaStart, thetaLength, 0-height/2, color, opacity );
 		
@@ -260,38 +259,73 @@ function siteload_1() {
 		rightPivot.rotation.set( 0, (thetaStart-thetaLength)*Math.PI/180, 0 );
 		rightPivot.add( right );
 
+		var border = new THREE.Object3D();
 		border.add( top );
 		border.add( bottom );
 		border.add( leftPivot );
 		border.add( rightPivot );
 
-		new TWEEN.Tween( border.rotation )
-			.to( { y:2 }, 2000 )
-			.start();
+		// new TWEEN.Tween( border.rotation )
+		// 	.to( { y:2 }, 2000 )
+		// 	.start();
 
 		/*
-		var radiusSegments = thetaLength / 2;
-		var heightSegments = 1;
-		var start = (thetaStart-thetaLength) * Math.PI/180; //subtracting length from start has effect of enabling designer to specify left edge position of the band (start), and extending band rightwards.
-		var length = thetaLength * Math.PI/180;
 
-		var geometry = new THREE.CylinderGeometry( radius, radius, height, radiusSegments, heightSegments, true, start, length );
-		geometry.applyMatrix( new THREE.Matrix4().makeTranslation( 0, 0-height/2, 0 ) ); //sets pivot to top of band
-		var material = new THREE.MeshBasicMaterial( { 
-			color: color, 
-			side: THREE.BackSide, 
-			transparent: true, 
-			opacity: opacity
-		} );
-		var mesh = new THREE.Mesh( geometry, material );
-		mesh.position.setY( y );
+		var lPR = leftPivot.rotation.y;
+		leftPivot.rotation.set( 0, lPR - 30*Math.PI/180 , 0 );
+		left.scale.setY( 0 );
+		new TWEEN.Tween( left.scale )
+			.to( { y:1 }, 250 )
+			.easing( TWEEN.Easing.Sinusoidal.Out )
+			.onComplete( function(){
+				
+				new TWEEN.Tween( leftPivot.rotation )
+					.to( { y:lPR }, 500 )
+					.easing( TWEEN.Easing.Sinusoidal.Out )
+					.start();
+
+			} )
+			.start();
+
+
+		var rPR = rightPivot.rotation.y;
+		rightPivot.rotation.set( 0, rPR + 30*Math.PI/180 , 0 );
+		right.scale.setY( 0 );
+		new TWEEN.Tween( right.scale )
+			.to( { y:1 }, 250 )
+			.easing( TWEEN.Easing.Sinusoidal.Out )
+			.onComplete( function(){
+				
+				new TWEEN.Tween( rightPivot.rotation )
+					.to( { y:rPR }, 500 )
+					.easing( TWEEN.Easing.Sinusoidal.Out )
+					.start();
+
+			} )
+
+			.start();
+
+		var tP = top.position.y;
+		top.position.setY( 0 );
+		new TWEEN.Tween( top.position )
+			.to( { y:tP }, 500 )
+			.easing( TWEEN.Easing.Sinusoidal.Out )
+			.start();
+
+		var bP = bottom.position.y;
+		bottom.position.setY( 0 );
+		new TWEEN.Tween( bottom.position )
+			.to( { y:bP }, 500 )
+			.easing( TWEEN.Easing.Sinusoidal.Out )
+			.start();
+
 		*/
 
 		return border;
 
 	}
 
-	var b = makeBorder( 3, 1, 0.01, 225, 90, 0, 0xFFFFFF, 0.1 );
+	var b = makeBorder( 3, 1.5, 0.01, 270, 180, 0, 0xFFFFFF, 0.2 );
 	b.position.set( 0, 0, 0 );
 	holder.add( b );
 
